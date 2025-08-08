@@ -17,6 +17,8 @@
 </head>
 <body>
   <button class="help-button" id="btnAyuda">?</button>
+<!-- Botón volver -->
+<button id="btnVolverConfiguracion" class="boton-volver">⬅</button>
 
   <div class="logo-container">
     <img src="img/letras-quienmiente.png" alt="Logo" class="logo-icono">
@@ -46,15 +48,24 @@
       </select>
 
       <label for="tematica">Temática:</label>
-      <select id="tematica">
+<div style="display:flex; gap:6px; align-items:center;">
+    <select id="tematica">
         <option value="todos" selected>Todos</option>
+        <option value="futbol">Futbol</option>
         <option value="uruguay">Uruguayos</option>
         <option value="musica">Música</option>
         <option value="peliculasyseries">Peliculas y Series</option>
         <option value="politicos">Politicos</option>
         <option value="influencers">Influencers</option>
-        <option value="farandula">Farandula</option>        
-      </select>
+        <option value="farandula">Farandula</option>
+    </select>
+    <button id="btnEditarTematica" title="Editar temática" 
+            style="background:#eee; border:1px solid #ccc; border-radius:4px; padding:4px 6px; cursor:pointer;">
+        ✏️
+    </button>
+</div>
+
+
 
       <label for="duracion">Duración de la ronda (minutos):</label>
       <select id="duracion">
@@ -75,7 +86,16 @@
   <button id="btnGuardarNombres">Guardar</button>
   <button id="btnCancelarEdicion">Cancelar</button>
   <button id="btnEliminarNombres">Eliminar nombres guardados</button>
+</div>
+<div id="pantalla-editar-tematica" style="display: none;">
+  <h2>Editar temática</h2>
+  <p style="text-align:left; font-size:0.95rem; color:#444; margin-bottom:8px;">
+    Desmarca los famosos que NO quieras que aparezcan en esta temática.
+  </p>
+  <div id="lista-famosos-tematica" style="max-height:40vh; overflow:auto; text-align:left;"></div>
 
+  <button id="btnGuardarTematica">Guardar</button>
+  <button id="btnCancelarTematica">Cancelar</button>
 </div>
 
     <div id="pantalla-juego" style="display: none;"></div>

@@ -28,6 +28,7 @@ localStorage.removeItem('jugadores');
 localStorage.removeItem('impostores');
 localStorage.removeItem('tematica');
 localStorage.removeItem('duracion');
+localStorage.removeItem('famososExcluidosPorTematica');
 
   function ajustarAltura() {
   let vh = window.innerHeight * 0.01;
@@ -432,7 +433,92 @@ ajustarAltura();
     "Dross","Luisito Comunica","Fernanfloo","MrBeast","IShowSpeed","Spreen","Yao Cabrera","Nacho Ruglio"
   ]
 };
+  console.log("DOMContentLoaded cargado — registrando eventos de temática");
 
+  // Recuperar exclusiones guardadas
+  let excluidosPorTematica = JSON.parse(localStorage.getItem('famososExcluidosPorTematica') || '{}');
+
+  // Función para obtener famosos disponibles
+  function obtenerFamososDisponiblesPara(tematica) {
+    const base = famososPorTematica[tematica] ? [...famososPorTematica[tematica]] : [];
+    const excluidos = excluidosPorTematica[tematica] || [];
+    return base.filter(n => !excluidos.includes(n));
+  }
+
+// Botón lápiz - Editar temática (versión robusta sin cortar el DOMContentLoaded)
+function abrirEditorTematica() {
+  console.log("Click en botón lápiz");
+  const tematicaSelect = document.getElementById('tematica');
+  if (!tematicaSelect) {
+    console.error('No existe el <select id="tematica"> en el DOM');
+    return;
+  }
+  const tematica = tematicaSelect.value;
+  let lista = famososPorTematica[tematica] || [];
+
+  // Si está vacía, restaurar
+  if (!lista || lista.length === 0) {
+    alert('No hay famosos en esta temática. Se restaurará la lista completa.');
+    lista = [...(famososPorTematica[tematica] || [])];
+    excluidosPorTematica[tematica] = [];
+  }
+
+  const cont = document.getElementById('lista-famosos-tematica');
+  if (!cont) {
+    console.error("No se encontró el contenedor de lista de famosos");
+    return;
+  }
+
+  cont.innerHTML = lista.map(nombre => {
+    const checked = !(excluidosPorTematica[tematica] || []).includes(nombre);
+    const safeNombre = String(nombre).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    return `<label class="famoso-item" style="display:block; margin:4px 0;">
+              <input type="checkbox" value="${safeNombre}" ${checked ? 'checked' : ''}>
+              ${safeNombre}
+            </label>`;
+  }).join('');
+
+  // Mostrar pantalla de edición
+  document.getElementById('pantalla-inicial').style.display = 'none';
+  document.getElementById('pantalla-editar-nombres').style.display = 'none';
+  document.getElementById('pantalla-editar-tematica').style.display = 'block';
+}
+
+// Añadir listener si el botón existe en este momento
+const btnEditarTematica = document.getElementById('btnEditarTematica');
+if (btnEditarTematica) {
+  btnEditarTematica.addEventListener('click', (e) => {
+    e.preventDefault();
+    abrirEditorTematica();
+  });
+} else {
+  // Delegación: por si el botón se genera después o cambia de lugar
+  document.addEventListener('click', (e) => {
+    if (e.target && (e.target.id === 'btnEditarTematica' || e.target.closest?.('#btnEditarTematica'))) {
+      e.preventDefault();
+      abrirEditorTematica();
+    }
+  });
+}
+
+  // Guardar cambios
+  document.getElementById('btnGuardarTematica').addEventListener('click', () => {
+    const tematica = document.getElementById('tematica').value;
+    const seleccionados = Array.from(document.querySelectorAll('#lista-famosos-tematica input:checked'))
+                              .map(i => i.value);
+    const originales = famososPorTematica[tematica] || [];
+    excluidosPorTematica[tematica] = originales.filter(n => !seleccionados.includes(n));
+    localStorage.setItem('famososExcluidosPorTematica', JSON.stringify(excluidosPorTematica));
+
+    document.getElementById('pantalla-editar-tematica').style.display = 'none';
+    document.getElementById('pantalla-inicial').style.display = 'block';
+  });
+
+  // Cancelar sin guardar
+  document.getElementById('btnCancelarTematica').addEventListener('click', () => {
+    document.getElementById('pantalla-editar-tematica').style.display = 'none';
+    document.getElementById('pantalla-inicial').style.display = 'block';
+  });
     let totalJugadores = 0;
     let totalImpostores = 0;
     let jugadorActual = 1;
@@ -444,17 +530,29 @@ let tematicaAnterior = "todos";
 let duracionRonda = 3;
 let juegoIniciado = false;
 
+const btnVolverConfiguracion = document.getElementById('btnVolverConfiguracion');
+
+btnVolverConfiguracion.addEventListener('click', () => {
+  // Ocultar todas las pantallas
+  document.querySelectorAll('.container > div').forEach(div => div.style.display = 'none');
+  // Mostrar pantalla de configuraciones
+  document.getElementById('pantalla-inicial').style.display = 'block';
+  // Ocultar el botón de volver
+  btnVolverConfiguracion.style.display = 'none';
+});
+
 
     function comenzarJuego() {
   totalJugadores = parseInt(document.getElementById("jugadores").value);
   totalImpostores = parseInt(document.getElementById("impostores").value);
   tematicaSeleccionada = document.getElementById("tematica").value;
   duracionRonda = parseInt(document.getElementById("duracion").value);
+btnVolverConfiguracion.style.display = 'block';
 
 juegoIniciado = true;
 // Si es una temática nueva o se agotaron los disponibles, reiniciar la lista
 if (tematicaSeleccionada !== tematicaAnterior || famososDisponibles.length === 0) {
-  famososDisponibles = [...famososPorTematica[tematicaSeleccionada]];
+  famososDisponibles = obtenerFamososDisponiblesPara(tematicaSeleccionada);
   tematicaAnterior = tematicaSeleccionada; // actualizamos la anterior
 }
 
@@ -481,6 +579,7 @@ famosoElegido = famosos.find(f => f.nombre === nombreElegido); // objeto complet
   const pantallaInicial = document.getElementById("pantalla-inicial");
   const pantallaEditar = document.getElementById("pantalla-editar-nombres");
   const pantallaJuego = document.getElementById("pantalla-juego");
+btnVolverConfiguracion.style.display = 'block';
 
   if (pantallaInicial) pantallaInicial.style.display = "none";
   if (pantallaEditar) pantallaEditar.style.display = "none";
@@ -516,6 +615,7 @@ card.innerHTML = `
 
 function revelar() {
   const container = document.getElementById("main");
+btnVolverConfiguracion.style.display = 'block';
 
   const cartasViejas = container.querySelectorAll(".card");
   cartasViejas.forEach(c => c.remove());
@@ -614,6 +714,7 @@ window.revelar = revelar;
 
 function siguiente() {
   const container = document.getElementById("main");
+btnVolverConfiguracion.style.display = 'block';
 
   const cartasViejas = container.querySelectorAll(".card");
   cartasViejas.forEach(c => c.remove());
@@ -647,6 +748,7 @@ window.siguiente = siguiente;
 
 function continuarSiguiente() {
   const container = document.getElementById("main");
+btnVolverConfiguracion.style.display = 'block';
 
   const cartasViejas = container.querySelectorAll(".card");
   cartasViejas.forEach(c => c.remove());
@@ -678,6 +780,7 @@ function mostrarPantallaDeJuego() {
   const pantallaInicial = document.getElementById("pantalla-inicial");
   const pantallaEditar = document.getElementById("pantalla-editar-nombres");
   const pantallaJuego = document.getElementById("pantalla-juego");
+btnVolverConfiguracion.style.display = 'block';
 
   if (!pantallaJuego) {
     alert("Error: No se encontró el contenedor de juego.");
