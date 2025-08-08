@@ -1,3 +1,26 @@
+// ===== Evitar zoom por doble-tap y pellizco en móviles (pero permitir botones) =====
+(function() {
+  // Evita pinch-to-zoom (más de un dedo)
+  document.addEventListener('touchstart', function (e) {
+    if (e.touches && e.touches.length > 1) {
+      e.preventDefault();
+    }
+  }, { passive: false });
+
+  // Evita double-tap zoom solo si no es botón, enlace o input
+  let lastTouchEnd = 0;
+  document.addEventListener('touchend', function (e) {
+    const now = Date.now();
+    const tag = e.target.tagName.toLowerCase();
+
+    // Si no es botón, enlace o input, prevenir zoom
+    if (now - lastTouchEnd <= 300 && !['button', 'a', 'input', 'textarea'].includes(tag)) {
+      e.preventDefault();
+    }
+    lastTouchEnd = now;
+  }, { passive: false });
+})();
+
 document.addEventListener("DOMContentLoaded", () => {
  localStorage.removeItem('nombresPersonalizados');
  localStorage.removeItem('nombresPersonalizados');
@@ -473,9 +496,14 @@ famosoElegido = famosos.find(f => f.nombre === nombreElegido); // objeto complet
   const card = document.createElement("div");
   card.classList.add("card");
 
-  card.innerHTML = `
-    <h2>Turno de ${nombresPersonalizados.length ? nombresPersonalizados[jugadorActual - 1] : `Jugador ${jugadorActual}`}</h2>
-  `;
+  const nombreJugador = nombresPersonalizados.length
+  ? nombresPersonalizados[jugadorActual - 1]
+  : `Jugador ${jugadorActual}`;
+
+card.innerHTML = `
+  <h2>Turno de <span class="nombre-turno">${nombreJugador}</span></h2>
+`;
+
 
   const botones = document.createElement("div");
   botones.classList.add("fixed-buttons");
@@ -529,16 +557,46 @@ function revelar() {
         ? `<div class="impostor" style="text-align: center;">
              <p style="font-size: 32px; font-weight: bold; color: red;">IMPOSTOR</p>
            </div>`
-        : `<div style="width: 52vw; max-width: 290px; height: 280px; overflow: hidden; background: white; padding: 0; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
-             <img src="${famosoElegido.foto || 'img/default.jpg'}"
-                  alt="${famosoElegido.nombre}"
-                  style="width: 100%; height: 100%; object-fit: cover; object-position: center; border-radius: 12px;">
-           </div>
-           <p style="font-size: 22px; font-weight: bold; text-align: center; margin-top: 14px; color: #2ecc71;">
-             ${famosoElegido.nombre}
-           </p>`
+        : `<div style="width: 52vw; max-width: 290px; height: 280px; overflow: hidden; background: white; padding: 0; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:center;">
+     <div class="loader"></div>
+     <img src="${famosoElegido.foto || 'img/default.jpg'}"
+          alt="${famosoElegido.nombre}"
+          style="width: 100%; height: 100%; object-fit: cover; object-position: center; border-radius: 12px; display:none;">
+   </div>
+   <p style="font-size: 22px; font-weight: bold; text-align: center; margin-top: 14px; color: #2ecc71;">
+     ${famosoElegido.nombre}
+   </p>`
+
     }
   `;
+  // --- Paso 3: mostrar imagen cuando termina de cargar (loader) ---
+const imgEl = card.querySelector('img');
+const loaderEl = card.querySelector('.loader');
+
+if (imgEl) {
+  // asegurarnos que la img esté oculta al principio
+  imgEl.style.display = 'none';
+
+  // Si la imagen ya vino en cache y está lista, mostrarla inmediatamente
+  if (imgEl.complete && imgEl.naturalWidth !== 0) {
+    if (loaderEl) loaderEl.style.display = 'none';
+    imgEl.style.display = 'block';
+  } else {
+    // Evento cuando carga correctamente
+    imgEl.addEventListener('load', () => {
+      if (loaderEl) loaderEl.style.display = 'none';
+      imgEl.style.display = 'block';
+    });
+
+    // Evento de error: ocultamos loader y mostramos fallback
+    imgEl.addEventListener('error', () => {
+      if (loaderEl) loaderEl.style.display = 'none';
+      imgEl.src = 'img/default.jpg'; // fallback (si tenés otra ruta, ponerla)
+      imgEl.style.display = 'block';
+    });
+  }
+}
+
 
   const botones = document.createElement("div");
   botones.classList.add("fixed-buttons");
