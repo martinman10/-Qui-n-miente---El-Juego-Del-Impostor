@@ -494,7 +494,7 @@ famosoElegido = famosos.find(f => f.nombre === nombreElegido); // objeto complet
   botonesViejos.forEach(b => b.remove());
 
   const card = document.createElement("div");
-  card.classList.add("card");
+card.classList.add("card", "carta-turno");
 
   const nombreJugador = nombresPersonalizados.length
   ? nombresPersonalizados[jugadorActual - 1]
@@ -535,13 +535,11 @@ function revelar() {
   card.style.padding = "16px";
   card.style.boxSizing = "border-box";
 
-  // 💡 Responsive: distinto en móvil y escritorio
+  // 💡 Responsive
   if (window.innerWidth < 768) {
-    // Celular
     card.style.height = "auto";
     card.style.justifyContent = "flex-start";
   } else {
-    // Escritorio
     card.style.height = "calc(100vh - 80px)";
     card.style.justifyContent = "center";
   }
@@ -551,52 +549,54 @@ function revelar() {
     : `Jugador ${jugadorActual}`;
 
   card.innerHTML = `
-    <h2 style="margin-bottom: 20px;">${nombreJugador}</h2>
+    <h2 style="margin-bottom: 20px;"><span class="nombre-jugador">${nombreJugador}</span></h2>
     ${
       esImpostor
-        ? `<div class="impostor" style="text-align: center;">
-             <p style="font-size: 32px; font-weight: bold; color: red;">IMPOSTOR</p>
-           </div>`
+        ? `<div style="width: 52vw; max-width: 290px; height: 280px; overflow: hidden; background: white; padding: 0; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:center;">
+             <img src="img/impostor.jpg"
+                  alt="Impostor"
+                  style="width: 100%; height: 100%; object-fit: cover; object-position: center; border-radius: 12px;">
+           </div>
+           <p style="font-size: 22px; font-weight: bold; text-align: center; margin-top: 14px; color: red;">
+             IMPOSTOR
+           </p>`
         : `<div style="width: 52vw; max-width: 290px; height: 280px; overflow: hidden; background: white; padding: 0; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:center;">
-     <div class="loader"></div>
-     <img src="${famosoElegido.foto || 'img/default.jpg'}"
-          alt="${famosoElegido.nombre}"
-          style="width: 100%; height: 100%; object-fit: cover; object-position: center; border-radius: 12px; display:none;">
-   </div>
-   <p style="font-size: 22px; font-weight: bold; text-align: center; margin-top: 14px; color: #2ecc71;">
-     ${famosoElegido.nombre}
-   </p>`
-
+             <div class="loader"></div>
+             <img src="${famosoElegido.foto || 'img/default.jpg'}"
+                  alt="${famosoElegido.nombre}"
+                  style="width: 100%; height: 100%; object-fit: cover; object-position: center; border-radius: 12px; display:none;">
+           </div>
+           <p style="font-size: 22px; font-weight: bold; text-align: center; margin-top: 14px; color: #2ecc71;">
+             ${famosoElegido.nombre}
+           </p>`
     }
   `;
-  // --- Paso 3: mostrar imagen cuando termina de cargar (loader) ---
-const imgEl = card.querySelector('img');
-const loaderEl = card.querySelector('.loader');
 
-if (imgEl) {
-  // asegurarnos que la img esté oculta al principio
-  imgEl.style.display = 'none';
+  // --- Paso 3: loader solo si NO es impostor ---
+  if (!esImpostor) {
+    const imgEl = card.querySelector('img');
+    const loaderEl = card.querySelector('.loader');
 
-  // Si la imagen ya vino en cache y está lista, mostrarla inmediatamente
-  if (imgEl.complete && imgEl.naturalWidth !== 0) {
-    if (loaderEl) loaderEl.style.display = 'none';
-    imgEl.style.display = 'block';
-  } else {
-    // Evento cuando carga correctamente
-    imgEl.addEventListener('load', () => {
-      if (loaderEl) loaderEl.style.display = 'none';
-      imgEl.style.display = 'block';
-    });
+    if (imgEl) {
+      imgEl.style.display = 'none';
 
-    // Evento de error: ocultamos loader y mostramos fallback
-    imgEl.addEventListener('error', () => {
-      if (loaderEl) loaderEl.style.display = 'none';
-      imgEl.src = 'img/default.jpg'; // fallback (si tenés otra ruta, ponerla)
-      imgEl.style.display = 'block';
-    });
+      if (imgEl.complete && imgEl.naturalWidth !== 0) {
+        if (loaderEl) loaderEl.style.display = 'none';
+        imgEl.style.display = 'block';
+      } else {
+        imgEl.addEventListener('load', () => {
+          if (loaderEl) loaderEl.style.display = 'none';
+          imgEl.style.display = 'block';
+        });
+
+        imgEl.addEventListener('error', () => {
+          if (loaderEl) loaderEl.style.display = 'none';
+          imgEl.src = 'img/default.jpg';
+          imgEl.style.display = 'block';
+        });
+      }
+    }
   }
-}
-
 
   const botones = document.createElement("div");
   botones.classList.add("fixed-buttons");
@@ -610,6 +610,7 @@ if (imgEl) {
 }
 
 window.revelar = revelar;
+
 
 function siguiente() {
   const container = document.getElementById("main");
@@ -625,12 +626,12 @@ function siguiente() {
       : `jugador ${jugadorActual + 1}`;
 
     const card = document.createElement("div");
-    card.classList.add("card");
+card.classList.add("card", "carta-pasar");
 
     card.innerHTML = `
-      <h2>Pasá el teléfono</h2>
-      <p>Pasá el dispositivo al <strong>${nombreProximo}</strong> sin mostrar tu rol.</p>
-    `;
+  <h2>Pasá el teléfono</h2>
+  <p>Pasá el dispositivo al <strong class="nombre-jugador">${nombreProximo}</strong> sin mostrar tu rol.</p>
+`;
 
     const botones = document.createElement("div");
     botones.classList.add("fixed-buttons");

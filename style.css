@@ -479,7 +479,74 @@ html, body {
   font-weight: 700;    /* negrita para destacarlo */
   margin-left: 6px;    /* separa un poco del "Turno de" */
 }
+/* ---- nombres de jugador (azul) ---- */
 .nombre-jugador {
-  color: #007bff;     /* azul */
-  font-weight: 700;   /* negrita */
+  color: #007bff;    /* azul */
+  font-weight: 700;  /* negrita */
+}
+.carta-turno {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  padding: 100px 20px 30px; /* 💡 más padding-top para bajar el texto dentro de la carta */
+  max-width: 400px;
+  width: 100%;
+  min-height: 240px;
+  margin: 0px auto 80px; /* 💡 carta más cerca del borde superior */
+}
+
+#main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/* 📱 Ajustes especiales para celulares */
+@media (max-width: 767px) {
+  .carta-turno {
+    max-width: 95%;          /* casi todo el ancho de la pantalla */
+    min-height: 300px;       /* más alta */
+    margin-top: 40px;        /* más separación del borde superior */
+    margin-bottom: 100px;    /* espacio extra para botón fijo */
+    padding: 125px 25px 40px; /* más espacio arriba → baja el texto */
+    font-size: 1.2rem;       /* texto un poco más grande */
+  }
+
+  .carta-turno h2 {
+    font-size: 1.6rem;       /* título más grande */
+    text-align: center;
+  }
+
+  .nombre-jugador {
+    font-size: 1.6rem;       /* nombre grande y destacado */
+  }
+}
+.carta-pasar {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  padding: 40px 20px 30px;
+  max-width: 400px;
+  width: 100%;
+  min-height: 220px;
+  margin: 20px auto 80px; /* espacio arriba y abajo */
+  text-align: center;
+}
+/* 📱 Ajustes para la carta "Pasá el teléfono" en celulares */
+@media (max-width: 767px) {
+  .carta-pasar {
+    max-width: 95%;
+    min-height: 300px;
+    margin-top: 40px;
+    margin-bottom: 100px;
+    padding: 115px 25px 40px; /* baja el texto dentro de la carta */
+    font-size: 1.2rem;
+  }
+
+  .carta-pasar h2 {
+    font-size: 1.6rem;
+  }
+
+  .carta-pasar .nombre-jugador {
+    font-size: 1.2rem;
+  }
 }
