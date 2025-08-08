@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quién Miente?</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@900&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#ff4757">
+
+<!-- Para iPhone -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="img/iconoquienmiente.png">
+</head>
+<body>
+  <button class="help-button" id="btnAyuda">?</button>
+
+  <div class="logo-container">
+    <img src="img/letras-quienmiente.png" alt="Logo" class="logo-icono">
+  </div>
+
+  <div class="container" id="main">
+    <div id="pantalla-inicial">
+
+      <label for="jugadores">Número de jugadores:</label>
+      <select id="jugadores">
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5" selected>5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+      </select>
+
+      <label for="impostores">Número de impostores:</label>
+      <select id="impostores">
+        <option value="1" selected>1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
+
+      <label for="tematica">Temática:</label>
+      <select id="tematica">
+        <option value="todos" selected>Todos</option>
+        <option value="uruguay">Uruguayos</option>
+        <option value="musica">Música</option>
+        <option value="peliculasyseries">Peliculas y Series</option>
+        <option value="politicos">Politicos</option>
+        <option value="influencers">Influencers</option>
+        <option value="farandula">Farandula</option>        
+      </select>
+
+      <label for="duracion">Duración de la ronda (minutos):</label>
+      <select id="duracion">
+        <option value="1">1 minuto</option>
+        <option value="2">2 minutos</option>
+        <option value="3" selected>3 minutos</option>
+        <option value="4">4 minutos</option>
+        <option value="5">5 minutos</option>
+      </select>
+
+      <button id="btnComenzarJuego">Comenzar</button>
+      <button id="btnEditarNombres">Editar nombres</button>
+    </div>
+
+<div id="pantalla-editar-nombres" style="display: none;">
+  <h2>Editar nombres</h2>
+  <div id="inputs-nombres"></div>
+  <button id="btnGuardarNombres">Guardar</button>
+  <button id="btnCancelarEdicion">Cancelar</button>
+  <button id="btnEliminarNombres">Eliminar nombres guardados</button>
+
+</div>
+
+    <div id="pantalla-juego" style="display: none;"></div>
+  </div>
+
+
+  <div class="modal-overlay" id="modal">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
+    <div class="modal-content">
+      <h2 id="modalTitle">¿Cómo se juega?</h2>
+      <p>🕵️ <strong>¿Cómo se juega?</strong></p>
+      <p>🎭 <strong>Roles:</strong></p>
+      <p>Hay famosos y impostores.</p>
+      <p>Todos los famosos comparten la misma identidad secreta.</p>
+      <p>Los impostores no la conocen y deben improvisar.</p>
+
+      <p>📋 <strong>Dinámica del juego:</strong></p>
+      <p>Cada jugador recibe una carta que dice si es famoso o impostor.</p>
+      <p>El primero en revelar su rol es quien inicia la ronda hablando.</p>
+      <p>Luego, los turnos de conversación siguen el orden de revelación.</p>
+      <p>Después de hablar, todos votan para eliminar a alguien sospechoso.</p>
+
+      <p>🔁 <strong>Inicio del turno:</strong></p>
+      <p>En cada nueva partida, comienza hablando el siguiente jugador en la lista para que todos roten.</p>
+
+      <p>🗣️ <strong>Rondas:</strong></p>
+      <p>Hasta 3 rondas de conversación:</p>
+      <ul>
+        <li>Ronda 1: sin tiempo.</li>
+        <li>Ronda 2: sin tiempo.</li>
+        <li>Ronda 3: cronometrada (según el tiempo elegido).</li>
+      </ul>
+      <p>El juego puede terminar antes si:</p>
+      <ul>
+        <li>Se eliminan a todos los impostores.</li>
+        <li>Queda solo el impostor y una persona más.</li>
+      </ul>
+
+      <p>🎯 <strong>Condiciones de victoria:</strong></p>
+      <p><strong>Ganan los FAMOSOS si:</strong></p>
+      <ul>
+        <li>Eliminan a todos los impostores.</li>
+      </ul>
+      <p><strong>Ganan los IMPOSTORES si:</strong></p>
+      <ul>
+        <li>Termina el tiempo sin ser descubiertos.</li>
+        <li>Queda solo el impostor y una persona más (mano a mano).</li>
+      </ul>
+    </div>
+    <div class="modal-footer">
+      <button id="btnCerrarModal">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

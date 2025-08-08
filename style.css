@@ -1,0 +1,462 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap');
+@font-face {
+  font-family: 'Biennale Black';
+  src: url('Biennale Black.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Rubik', sans-serif;
+  background: #f5f6fa;
+  color: #222;
+  margin: 0;
+  padding: 0; /* 🔴 Quitamos el padding */
+  height: 100vh;
+  overflow: hidden; /* ✅ Evita el scroll */
+}
+.container {
+  width: 100%;
+  max-width: 480px;
+  height: calc(var(--vh, 1vh) * 100);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+  padding: 30px 25px; /* ✅ Se mantiene el padding interno aquí */
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+label {
+  display: block;
+  margin: 15px 0 8px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  text-align: left;
+  color: #222;
+  user-select: none;
+}
+
+select, button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: all 0.25s ease;
+  user-select: none;
+  border: 1.8px solid #ddd;
+}
+
+select:hover, select:focus {
+  border-color: red;
+  outline: none;
+  background-color: #80808033;
+  cursor: pointer;
+}
+
+button {
+  border: none;
+  background-color: #ff4757;
+  color: white;
+  margin-top: 22px;
+  font-weight: 700;
+  box-shadow: 0 6px 12px rgba(255, 71, 87, 0.5);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #e84118;
+  box-shadow: 0 8px 20px rgba(232, 65, 24, 0.7);
+}
+
+.card {
+  background: #fff7f7;
+  border-radius: 14px;
+  padding: 35px 25px;
+  margin-bottom: 100px;
+  box-shadow: 0 12px 30px rgba(255, 71, 87, 0.15);
+  min-height: 180px;
+  opacity: 0;
+  animation: fadeInScale 0.5s forwards;
+  user-select: none;
+  position: relative;
+
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.famoso, .impostor {
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin: 22px 0 12px;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.famoso {
+  color: #27ae60;
+}
+
+.impostor {
+  color: #e74c3c;
+}
+
+.bottom-button {
+  margin-top: 20px;
+  user-select: none;
+}
+
+.pasar-telefono {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: #444;
+}
+
+.timer {
+  font-weight: 700;
+  font-size: 2.2rem;
+  color: #ff4757;
+  margin-bottom: 18px;
+  user-select: none;
+}
+
+.help-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  font-size: 1.8rem;
+  border-radius: 50%;
+  border: none;
+  background: #ff4757;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  transition: background-color 0.3s;
+  z-index: 1000;
+  box-shadow: 0 5px 15px rgba(255, 71, 87, 0.5);
+}
+
+.help-button:hover {
+  background: #e84118;
+}
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal-overlay.active {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  width: 90%;
+  color: #222;
+  font-size: 1.1rem;
+  text-align: left;
+  max-height: 80vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.timer-container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 25px;
+}
+
+svg {
+  transform: rotate(-90deg);
+  width: 200px;
+  height: 200px;
+}
+
+.circle-bg {
+  fill: none;
+  stroke: #eee;
+  stroke-width: 15;
+}
+
+.circle-progress {
+  fill: none;
+  stroke: #ff4757;
+  stroke-width: 15;
+  stroke-linecap: round;
+  transition: stroke 0.5s ease;
+}
+.imagen-famoso {
+  width: 100%;
+  height: auto;          /* ✅ Que no se deforme ni recorte */
+  max-height: 250px;     /* ✅ Limita la altura para no empujar demasiado el texto */
+  object-fit: contain;   /* ✅ Contiene la imagen completa sin recortar */
+  margin-bottom: 20px;   /* ✅ Espacio entre la imagen y el nombre */
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.timer-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3.8rem;
+  font-weight: 700;
+  color: #ff4757;
+  user-select: none;
+  font-family: 'Rubik', sans-serif;
+}
+
+.timer-text.warning {
+  color: #e84118;
+}
+
+#terminarRondaBtn {
+  width: 100%;
+  padding: 12px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  background-color: #ff4757;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 6px 12px rgba(255, 71, 87, 0.5);
+  transition: background-color 0.3s ease;
+}
+
+#terminarRondaBtn:hover {
+  background-color: #e84118;
+  box-shadow: 0 8px 20px rgba(232, 65, 24, 0.7);
+}
+
+select, option {
+  color: #ff4757;
+}
+
+body {
+  overflow-y: auto;
+}
+
+.logo-container {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.logo-icono {
+  width: 80px;
+  height: auto;
+  display: block;
+  margin: 0 auto 10px;
+}
+#pantalla-inicial button {
+  display: block;
+  width: 100%;
+  margin: 12px auto;
+  padding: 12px;
+  font-size: 1.1rem;
+}
+
+#pantalla-editar-nombres {
+  margin-top: 20px;
+}
+
+#inputs-nombres input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1.5px solid #ccc;
+}
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Esto evita el scroll general */
+}
+.modal-content {
+  padding: 30px;
+  overflow-y: auto;
+  flex: 1 1 auto;
+}
+
+.modal-footer {
+  padding: 15px 30px;
+  border-top: 1px solid #ddd;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+  background: #fff;
+}
+
+.modal-footer button {
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  background-color: #ff4757;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 6px 12px rgba(255, 71, 87, 0.5);
+  transition: background-color 0.3s ease;
+}
+
+.modal-footer button:hover {
+  background-color: #e84118;
+  box-shadow: 0 8px 20px rgba(232, 65, 24, 0.7);
+}
+
+/* 🎯 Celulares (hasta 767px) */
+@media (max-width: 767px) {
+   .container {
+    height: auto;
+    padding: 0px 18px 0px; /* ⬅️ Aumentamos padding-top para bajar contenido */
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+ .logo-icono {
+  width: 200px;
+  margin-top: 40px;
+  margin-bottom: 0px;
+  }
+
+  select, button {
+    font-size: 1rem;
+    padding: 10px;
+  }
+
+  .modal {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    border-radius: 0;
+    padding: 20px;
+  }
+
+  .modal-content {
+    padding: 20px;
+    font-size: 1rem;
+  }
+
+  .modal-footer {
+    padding: 10px 20px;
+  }
+
+  .help-button {
+    top: 15px;
+    right: 15px;
+    width: 35px;
+    height: 35px;
+    font-size: 1.4rem;
+  }
+}
+/* 🖥️ Escritorio (desde 768px en adelante) */
+@media (min-width: 768px) {
+  .container {
+    max-width: 600px;
+    height: 80vh;
+    padding: 30px 25px;
+    border-radius: 15px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+  }
+
+  .modal {
+    max-width: 600px;
+    border-radius: 12px;
+  }
+
+  .help-button {
+    width: 40px;
+    height: 40px;
+    font-size: 1.8rem;
+  }
+  .logo-icono {
+  width: 100px;
+  margin-top: 10px;
+  margin-bottom: 0px;
+  }
+}
+#pantalla-editar-nombres button {
+  margin-top: 5px;
+}
+.fixed-buttons {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  padding: 10px 20px;
+  background-color: white;
+  text-align: center;
+  z-index: 999;
+}
+
+.fixed-buttons button {
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* 📱 En celular (pantallas hasta 767px): más abajo */
+@media (max-width: 767px) {
+  .fixed-buttons {
+    bottom: 100px;
+  }
+}
+
+/* 🖥️ En escritorio (desde 768px): más arriba */
+@media (min-width: 768px) {
+  .fixed-buttons {
+    bottom: 120px;
+  }
+}
