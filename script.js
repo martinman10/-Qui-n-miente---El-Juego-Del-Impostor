@@ -856,7 +856,12 @@ btnVolverConfiguracion.style.display = 'block';
   const intervalo = setInterval(actualizarTemporizador, 1000);
 
   document.getElementById("terminarRondaBtn").addEventListener("click", () => {
-    clearInterval(intervalo);
+    btnVolverConfiguracion.style.display = "none"; // Ocultar flecha atrás
+
+    // Ocultar pantalla de juego y mostrar pantalla inicial (configuración)
+    document.getElementById("pantalla-juego").style.display = "none";
+    document.getElementById("pantalla-inicial").style.display = "block";
+
 
     if (pantallaInicial) pantallaInicial.style.display = "block";
     if (pantallaEditar) pantallaEditar.style.display = "none";

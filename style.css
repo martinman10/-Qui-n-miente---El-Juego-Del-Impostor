@@ -563,25 +563,20 @@ html, body {
 #lista-famosos-tematica .famoso-item input { margin-right: 10px; }
 .boton-volver {
   position: fixed;
-  top: 10px;
-  left: 10px;
+  top: 18px;
+  left: 20px;
   width: 40px;           /* ancho fijo */
   height: 40px;          /* alto fijo */
   line-height: 40px;     /* centra el texto verticalmente */
   text-align: center;    /* centra el texto horizontalmente */
   border: none;
   border-radius: 50%;    /* círculo */
-  background-color: #ff4757; /* rojo del tema */
-  color: white;
-  font-size: 20px;
+  
+  font-size: 33px;
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(0,0,0,0.3);
   display: none;         /* oculto por defecto */
   padding: 0;            /* elimina relleno que lo agranda */
-}
-
-.boton-volver:hover {
-  background-color: #e84118;
 }
 
