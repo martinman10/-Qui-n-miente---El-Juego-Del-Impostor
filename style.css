@@ -579,4 +579,10 @@ html, body {
   display: none;         /* oculto por defecto */
   padding: 0;            /* elimina relleno que lo agranda */
 }
-
+/* Ajuste solo para el modal de ayuda */
+.modal-content .famoso,
+.modal-content .impostor {
+  font-size: 1em; /* igual que el texto normal */
+  font-weight: 700;
+  display: inline; /* evita que salten de línea */
+}

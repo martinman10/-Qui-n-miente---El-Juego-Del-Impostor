@@ -22,6 +22,34 @@
 })();
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Generar dinámicamente las opciones de jugadores, impostores y duración
+const selJugadores = document.getElementById("jugadores");
+for (let i = 3; i <= 100; i++) {
+  const opt = document.createElement("option");
+  opt.value = i;
+  opt.textContent = i;
+  if (i === 5) opt.selected = true; // valor por defecto
+  selJugadores.appendChild(opt);
+}
+
+const selImpostores = document.getElementById("impostores");
+for (let i = 1; i <= 50; i++) {
+  const opt = document.createElement("option");
+  opt.value = i;
+  opt.textContent = i;
+  if (i === 1) opt.selected = true; // valor por defecto
+  selImpostores.appendChild(opt);
+}
+
+const selDuracion = document.getElementById("duracion");
+for (let i = 1; i <= 60; i++) {
+  const opt = document.createElement("option");
+  opt.value = i;
+  opt.textContent = i + (i === 1 ? " minuto" : " minutos");
+  if (i === 3) opt.selected = true; // valor por defecto
+  selDuracion.appendChild(opt);
+}
+
  localStorage.removeItem('nombresPersonalizados');
  localStorage.removeItem('nombresPersonalizados');
 localStorage.removeItem('jugadores');
@@ -547,23 +575,34 @@ btnVolverConfiguracion.addEventListener('click', () => {
   totalImpostores = parseInt(document.getElementById("impostores").value);
   tematicaSeleccionada = document.getElementById("tematica").value;
   duracionRonda = parseInt(document.getElementById("duracion").value);
-btnVolverConfiguracion.style.display = 'block';
 
-juegoIniciado = true;
-// Si es una temática nueva o se agotaron los disponibles, reiniciar la lista
-if (tematicaSeleccionada !== tematicaAnterior || famososDisponibles.length === 0) {
-  famososDisponibles = obtenerFamososDisponiblesPara(tematicaSeleccionada);
-  tematicaAnterior = tematicaSeleccionada; // actualizamos la anterior
-}
+  // 🔹 Validaciones de límites
+  if (totalJugadores > 100) totalJugadores = 100;
+  if (totalImpostores > 50) totalImpostores = 50;
+  if (duracionRonda > 60) duracionRonda = 60;
+
+  // 🔹 Evitar más impostores que jugadores
+  if (totalImpostores >= totalJugadores) {
+    alert("El número de impostores debe ser menor que el número de jugadores.");
+    return;
+  }
+
+  btnVolverConfiguracion.style.display = 'block';
+  juegoIniciado = true;
+
+  // Si es una temática nueva o se agotaron los disponibles, reiniciar la lista
+  if (tematicaSeleccionada !== tematicaAnterior || famososDisponibles.length === 0) {
+    famososDisponibles = obtenerFamososDisponiblesPara(tematicaSeleccionada);
+    tematicaAnterior = tematicaSeleccionada;
+  }
 
   jugadorActual = 1;
   impostoresArray = [];
 
-  const lista = famososPorTematica[tematicaSeleccionada];
   // Elegimos un famoso aleatorio de los disponibles y lo eliminamos de la lista
-const randomIndex = Math.floor(Math.random() * famososDisponibles.length);
-const nombreElegido = famososDisponibles.splice(randomIndex, 1)[0]; // solo el nombre
-famosoElegido = famosos.find(f => f.nombre === nombreElegido); // objeto completo con foto
+  const randomIndex = Math.floor(Math.random() * famososDisponibles.length);
+  const nombreElegido = famososDisponibles.splice(randomIndex, 1)[0];
+  famosoElegido = famosos.find(f => f.nombre === nombreElegido);
 
   while (impostoresArray.length < totalImpostores) {
     let random = Math.floor(Math.random() * totalJugadores) + 1;

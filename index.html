@@ -30,24 +30,13 @@
     <div id="pantalla-inicial">
 
       <label for="jugadores">Número de jugadores:</label>
-      <select id="jugadores">
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5" selected>5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
-      </select>
+<select id="jugadores"></select>
 
-      <label for="impostores">Número de impostores:</label>
-      <select id="impostores">
-        <option value="1" selected>1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-      </select>
+<label for="impostores">Número de impostores:</label>
+<select id="impostores"></select>
+
+<label for="duracion">Duración de la ronda (minutos):</label>
+<select id="duracion"></select>
 
       <label for="tematica">Temática:</label>
 <div style="display:flex; gap:6px; align-items:center;">
@@ -66,17 +55,6 @@
         ✏️
     </button>
 </div>
-
-
-
-      <label for="duracion">Duración de la ronda (minutos):</label>
-      <select id="duracion">
-        <option value="1">1 minuto</option>
-        <option value="2">2 minutos</option>
-        <option value="3" selected>3 minutos</option>
-        <option value="4">4 minutos</option>
-        <option value="5">5 minutos</option>
-      </select>
 
       <button id="btnComenzarJuego">Comenzar</button>
       <button id="btnEditarNombres">Editar nombres</button>
@@ -106,47 +84,37 @@
 
   <div class="modal-overlay" id="modal">
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
-    <div class="modal-content">
-      <h2 id="modalTitle">¿Cómo se juega?</h2>
-      <p>🕵️ <strong>¿Cómo se juega?</strong></p>
-      <p>🎭 <strong>Roles:</strong></p>
-      <p>Hay famosos y impostores.</p>
-      <p>Todos los famosos comparten la misma identidad secreta.</p>
-      <p>Los impostores no la conocen y deben improvisar.</p>
-
-      <p>📋 <strong>Dinámica del juego:</strong></p>
-      <p>Cada jugador recibe una carta que dice si es famoso o impostor.</p>
-      <p>El primero en revelar su rol es quien inicia la ronda hablando.</p>
-      <p>Luego, los turnos de conversación siguen el orden de revelación.</p>
-      <p>Después de hablar, todos votan para eliminar a alguien sospechoso.</p>
-
-      <p>🔁 <strong>Inicio del turno:</strong></p>
-      <p>En cada nueva partida, comienza hablando el siguiente jugador en la lista para que todos roten.</p>
-
-      <p>🗣️ <strong>Rondas:</strong></p>
-      <p>Hasta 3 rondas de conversación:</p>
-      <ul>
-        <li>Ronda 1: sin tiempo.</li>
-        <li>Ronda 2: sin tiempo.</li>
-        <li>Ronda 3: cronometrada (según el tiempo elegido).</li>
-      </ul>
-      <p>El juego puede terminar antes si:</p>
-      <ul>
-        <li>Se eliminan a todos los impostores.</li>
-        <li>Queda solo el impostor y una persona más.</li>
-      </ul>
-
-      <p>🎯 <strong>Condiciones de victoria:</strong></p>
-      <p><strong>Ganan los FAMOSOS si:</strong></p>
-      <ul>
-        <li>Eliminan a todos los impostores.</li>
-      </ul>
-      <p><strong>Ganan los IMPOSTORES si:</strong></p>
-      <ul>
-        <li>Termina el tiempo sin ser descubiertos.</li>
-        <li>Queda solo el impostor y una persona más (mano a mano).</li>
-      </ul>
-    </div>
+<div class="modal-content">
+  <h2 id="modalTitle">¿Cómo se juega?</h2>
+  <ol style="padding-left: 1.2em; font-size: 1.05rem; line-height: 1.5; color: #333;">
+    <li>
+      <strong>Prepará la partida</strong><br>
+      Elegí la cantidad de jugadores, cuántos serán impostores, la temática y la duración de la ronda.
+    </li>
+    <li>
+      <strong>Descubrí tu rol</strong><br>
+      Cuando sea tu turno, mirá la pantalla en secreto:<br>
+      - Si sos <span class="impostor">impostor</span>, inventá respuestas y tratá de no ser descubierto.<br>
+      - Si sos <span class="famoso">famoso</span>, recibirás el nombre o imagen de un personaje famoso: respondé siempre de forma coherente con ese personaje.
+    </li>
+    <li>
+      <strong>Pasá el teléfono</strong><br>
+      Después de ver tu rol, pasá el teléfono al siguiente jugador sin que nadie más lo vea.
+    </li>
+    <li>
+      <strong>Charla y deducción</strong><br>
+      Durante el tiempo de la ronda, hagan preguntas y respondan. El objetivo de los famosos es descubrir a los impostores; el de los impostores es confundirse entre los demás.
+    </li>
+    <li>
+      <strong>Votación</strong><br>
+      Al terminar el tiempo, todos señalan y dicen quién creen que es impostor. El que tenga más votos se elimina.
+    </li>
+    <li>
+      <strong>Fin y nueva ronda</strong><br>
+      Podés volver a jugar cambiando o no los roles. ¡Gana el equipo que logre cumplir su objetivo!
+    </li>
+  </ol>
+</div>
     <div class="modal-footer">
       <button id="btnCerrarModal">Cerrar</button>
     </div>
