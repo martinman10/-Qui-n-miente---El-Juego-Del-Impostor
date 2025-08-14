@@ -22,9 +22,20 @@
 })();
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Generar dinámicamente las opciones de jugadores, impostores y duración
+function mostrarBotonesPantallasFijas() {
+  const btnsTematicas = document.querySelector('#pantalla-seleccionar-tematicas .fixed-buttons');
+  if (btnsTematicas) btnsTematicas.style.display = 'block';
+
+  const btnsNombres = document.querySelector('#pantalla-editar-nombres .fixed-buttons');
+  if (btnsNombres) btnsNombres.style.display = 'block';
+}
+
+
 const selJugadores = document.getElementById("jugadores");
-for (let i = 3; i <= 100; i++) {
+const selImpostores = document.getElementById("impostores");
+
+// Llenar jugadores con opción "Más..."
+for (let i = 3; i <= 15; i++) {
   const opt = document.createElement("option");
   opt.value = i;
   opt.textContent = i;
@@ -32,14 +43,66 @@ for (let i = 3; i <= 100; i++) {
   selJugadores.appendChild(opt);
 }
 
-const selImpostores = document.getElementById("impostores");
-for (let i = 1; i <= 50; i++) {
-  const opt = document.createElement("option");
-  opt.value = i;
-  opt.textContent = i;
-  if (i === 1) opt.selected = true; // valor por defecto
-  selImpostores.appendChild(opt);
+// Agregar opción "Más..."
+const optMas = document.createElement("option");
+optMas.value = "mas";
+optMas.textContent = "Más...";
+selJugadores.appendChild(optMas);
+
+// Evento para manejar el caso "Más..."
+selJugadores.addEventListener("change", function () {
+  if (this.value === "mas") {
+    const num = prompt("Ingrese el número de jugadores:");
+    if (num && !isNaN(num) && parseInt(num) >= 3) {
+      const valor = parseInt(num);
+
+      // Si no existe una opción con ese valor, la creamos
+      let existe = Array.from(this.options).some(opt => opt.value == valor);
+      if (!existe) {
+        const nuevaOpcion = document.createElement("option");
+        nuevaOpcion.value = valor;
+        nuevaOpcion.textContent = valor;
+        // Insertar antes de la opción "Más..."
+        this.insertBefore(nuevaOpcion, this.querySelector('option[value="mas"]'));
+      }
+
+      this.value = valor;
+      actualizarOpcionesImpostores();
+    } else {
+      this.value = 5; // valor por defecto
+      actualizarOpcionesImpostores();
+    }
+  } else {
+    actualizarOpcionesImpostores();
+  }
+});
+
+// Función para llenar impostores dinámicamente
+function actualizarOpcionesImpostores() {
+  let jugadores = parseInt(selJugadores.value);
+
+  // Si el valor ingresado es inválido, poner mínimo 3
+  if (isNaN(jugadores) || jugadores < 3) {
+    jugadores = 3;
+  }
+
+  selImpostores.innerHTML = ""; // limpiar opciones actuales
+
+  for (let i = 1; i < jugadores; i++) { // hasta jugadores - 1
+    const opt = document.createElement("option");
+    opt.value = i;
+    opt.textContent = i;
+    if (i === 1) opt.selected = true; // valor por defecto
+    selImpostores.appendChild(opt);
+  }
 }
+
+
+// Generar impostores iniciales
+actualizarOpcionesImpostores();
+
+// Actualizar cada vez que cambie el número de jugadores
+selJugadores.addEventListener("change", actualizarOpcionesImpostores);
 
 const selDuracion = document.getElementById("duracion");
 for (let i = 1; i <= 60; i++) {
@@ -474,31 +537,38 @@ ajustarAltura();
   }
 
 // Botón lápiz - Editar temática (versión robusta sin cortar el DOMContentLoaded)
+// --- Editor de temática basado en 'window.tematicasSeleccionadas' ---
 function abrirEditorTematica() {
   console.log("Click en botón lápiz");
-  const tematicaSelect = document.getElementById('tematica');
-  if (!tematicaSelect) {
-    console.error('No existe el <select id="tematica"> en el DOM');
+
+  // Validación: tiene que haber al menos una temática elegida
+  if (!window.tematicasSeleccionadas || window.tematicasSeleccionadas.length === 0) {
+    alert('Seleccioná al menos una temática para editar.');
     return;
   }
-  const tematica = tematicaSelect.value;
-  let lista = famososPorTematica[tematica] || [];
 
-  // Si está vacía, restaurar
-  if (!lista || lista.length === 0) {
-    alert('No hay famosos en esta temática. Se restaurará la lista completa.');
-    lista = [...(famososPorTematica[tematica] || [])];
-    excluidosPorTematica[tematica] = [];
+  // Unir todos los famosos de las temáticas seleccionadas
+ // Unir todas las temáticas seleccionadas sin duplicados
+let lista = [];
+window.tematicasSeleccionadas.forEach(t => {
+  lista = lista.concat(famososPorTematica[t] || []);
+});
+// Eliminar duplicados
+lista = [...new Set(lista)];
+
+
+  // Si no hay famosos, limpiamos exclusiones de esas temáticas
+  if (lista.length === 0) {
+    alert('No hay famosos en las temáticas seleccionadas.');
+    window.tematicasSeleccionadas.forEach(t => excluidosPorTematica[t] = []);
   }
 
+  // Pintar checkboxes
   const cont = document.getElementById('lista-famosos-tematica');
-  if (!cont) {
-    console.error("No se encontró el contenedor de lista de famosos");
-    return;
-  }
-
   cont.innerHTML = lista.map(nombre => {
-    const checked = !(excluidosPorTematica[tematica] || []).includes(nombre);
+    const checked = !window.tematicasSeleccionadas.some(
+      t => (excluidosPorTematica[t] || []).includes(nombre)
+    );
     const safeNombre = String(nombre).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
     return `<label class="famoso-item" style="display:block; margin:4px 0;">
               <input type="checkbox" value="${safeNombre}" ${checked ? 'checked' : ''}>
@@ -509,44 +579,55 @@ function abrirEditorTematica() {
   // Mostrar pantalla de edición
   document.getElementById('pantalla-inicial').style.display = 'none';
   document.getElementById('pantalla-editar-nombres').style.display = 'none';
+  document.querySelector(".container")?.classList.add("editar-nombres-activa");
   document.getElementById('pantalla-editar-tematica').style.display = 'block';
 }
+// Guardar cambios de temática (sin <select>)
+document.getElementById('btnGuardarTematica').addEventListener('click', () => {
+  const seleccionados = Array.from(
+    document.querySelectorAll('#lista-famosos-tematica input:checked')
+  ).map(i => i.value);
 
-// Añadir listener si el botón existe en este momento
-const btnEditarTematica = document.getElementById('btnEditarTematica');
-if (btnEditarTematica) {
-  btnEditarTematica.addEventListener('click', (e) => {
-    e.preventDefault();
-    abrirEditorTematica();
+  // Para cada temática elegida, guardamos los excluidos
+  window.tematicasSeleccionadas.forEach(t => {
+    const originales = famososPorTematica[t] || [];
+    excluidosPorTematica[t] = originales.filter(n => !seleccionados.includes(n));
   });
-} else {
-  // Delegación: por si el botón se genera después o cambia de lugar
-  document.addEventListener('click', (e) => {
-    if (e.target && (e.target.id === 'btnEditarTematica' || e.target.closest?.('#btnEditarTematica'))) {
+
+  localStorage.setItem('famososExcluidosPorTematica', JSON.stringify(excluidosPorTematica));
+
+  document.getElementById('pantalla-editar-tematica').style.display = 'none';
+  document.getElementById('pantalla-inicial').style.display = 'block';
+});
+
+// Cancelar sin guardar
+document.getElementById('btnCancelarTematica').addEventListener('click', () => {
+  document.getElementById('pantalla-editar-tematica').style.display = 'none';
+  document.getElementById('pantalla-inicial').style.display = 'block';
+});
+window.tematicasSeleccionadas = window.tematicasSeleccionadas || [];
+
+// Listener robusto para el botón ✏️
+(function asegurarBotonEditarTematica() {
+  const btn = document.getElementById('btnEditarTematica');
+  if (btn) {
+    btn.addEventListener('click', (e) => {
       e.preventDefault();
       abrirEditorTematica();
-    }
-  });
-}
+    });
+  } else {
+    // Delegación por si el botón se renderiza después
+    document.addEventListener('click', (e) => {
+      const t = e.target;
+      if (t && (t.id === 'btnEditarTematica' || t.closest?.('#btnEditarTematica'))) {
+        e.preventDefault();
+        abrirEditorTematica();
+      }
+    });
+  }
+})();
 
-  // Guardar cambios
-  document.getElementById('btnGuardarTematica').addEventListener('click', () => {
-    const tematica = document.getElementById('tematica').value;
-    const seleccionados = Array.from(document.querySelectorAll('#lista-famosos-tematica input:checked'))
-                              .map(i => i.value);
-    const originales = famososPorTematica[tematica] || [];
-    excluidosPorTematica[tematica] = originales.filter(n => !seleccionados.includes(n));
-    localStorage.setItem('famososExcluidosPorTematica', JSON.stringify(excluidosPorTematica));
 
-    document.getElementById('pantalla-editar-tematica').style.display = 'none';
-    document.getElementById('pantalla-inicial').style.display = 'block';
-  });
-
-  // Cancelar sin guardar
-  document.getElementById('btnCancelarTematica').addEventListener('click', () => {
-    document.getElementById('pantalla-editar-tematica').style.display = 'none';
-    document.getElementById('pantalla-inicial').style.display = 'block';
-  });
     let totalJugadores = 0;
     let totalImpostores = 0;
     let jugadorActual = 1;
@@ -573,7 +654,14 @@ btnVolverConfiguracion.addEventListener('click', () => {
     function comenzarJuego() {
   totalJugadores = parseInt(document.getElementById("jugadores").value);
   totalImpostores = parseInt(document.getElementById("impostores").value);
-  tematicaSeleccionada = document.getElementById("tematica").value;
+  if (Array.isArray(window.tematicasSeleccionadas) && window.tematicasSeleccionadas.length > 0) {
+  const i = Math.floor(Math.random() * window.tematicasSeleccionadas.length);
+  tematicaSeleccionada = window.tematicasSeleccionadas[i];
+} else {
+  tematicaSeleccionada = "todos";
+}
+
+
   duracionRonda = parseInt(document.getElementById("duracion").value);
 
   // 🔹 Validaciones de límites
@@ -628,7 +716,7 @@ btnVolverConfiguracion.style.display = 'block';
 
   const cartasViejas = container.querySelectorAll(".card");
   cartasViejas.forEach(c => c.remove());
-  const botonesViejos = container.querySelectorAll(".fixed-buttons");
+  const botonesViejos = container.querySelectorAll(".game-fixed");
   botonesViejos.forEach(b => b.remove());
 
   const card = document.createElement("div");
@@ -644,7 +732,7 @@ card.innerHTML = `
 
 
   const botones = document.createElement("div");
-  botones.classList.add("fixed-buttons");
+  botones.classList.add("fixed-buttons", "game-fixed");
   botones.innerHTML = `<button onclick="revelar()">Revelar</button>`;
 
   container.appendChild(card);
@@ -658,7 +746,7 @@ btnVolverConfiguracion.style.display = 'block';
 
   const cartasViejas = container.querySelectorAll(".card");
   cartasViejas.forEach(c => c.remove());
-  const botonesViejos = container.querySelectorAll(".fixed-buttons");
+  const botonesViejos = container.querySelectorAll(".game-fixed");
   botonesViejos.forEach(b => b.remove());
 
   const esImpostor = impostoresArray.includes(jugadorActual);
@@ -738,7 +826,7 @@ btnVolverConfiguracion.style.display = 'block';
   }
 
   const botones = document.createElement("div");
-  botones.classList.add("fixed-buttons");
+  botones.classList.add("fixed-buttons", "game-fixed");
 
   botones.innerHTML = jugadorActual < totalJugadores
     ? `<button onclick="siguiente()">Continuar</button>`
@@ -757,7 +845,7 @@ btnVolverConfiguracion.style.display = 'block';
 
   const cartasViejas = container.querySelectorAll(".card");
   cartasViejas.forEach(c => c.remove());
-  const botonesViejos = container.querySelectorAll(".fixed-buttons");
+  const botonesViejos = container.querySelectorAll(".game-fixed");
   botonesViejos.forEach(b => b.remove());
 
   if (jugadorActual < totalJugadores) {
@@ -774,7 +862,7 @@ card.classList.add("card", "carta-pasar");
 `;
 
     const botones = document.createElement("div");
-    botones.classList.add("fixed-buttons");
+    botones.classList.add("fixed-buttons", "game-fixed");
     botones.innerHTML = `<button onclick="continuarSiguiente()">Listo</button>`;
 
     container.appendChild(card);
@@ -830,7 +918,7 @@ btnVolverConfiguracion.style.display = 'block';
 
   const cartasViejas = container.querySelectorAll(".card");
   cartasViejas.forEach(c => c.remove());
-  const botonesViejos = container.querySelectorAll(".fixed-buttons");
+  const botonesViejos = container.querySelectorAll(".game-fixed");
   botonesViejos.forEach(b => b.remove());
 
   if (pantallaInicial) pantallaInicial.style.display = "none";
@@ -852,7 +940,7 @@ btnVolverConfiguracion.style.display = 'block';
   `;
 
   const botones = document.createElement("div");
-  botones.classList.add("fixed-buttons");
+  botones.classList.add("fixed-buttons", "game-fixed");
   botones.innerHTML = `<button id="terminarRondaBtn">Terminar ronda</button>`;
   container.appendChild(botones);
 
@@ -892,7 +980,13 @@ btnVolverConfiguracion.style.display = 'block';
   }
 
   actualizarTemporizador();
-  const intervalo = setInterval(actualizarTemporizador, 1000);
+  // Evitar múltiples temporizadores
+if (window.intervalo) {
+  clearInterval(window.intervalo);
+}
+
+actualizarTemporizador();
+window.intervalo = setInterval(actualizarTemporizador, 1000);
 
   document.getElementById("terminarRondaBtn").addEventListener("click", () => {
     btnVolverConfiguracion.style.display = "none"; // Ocultar flecha atrás
@@ -906,8 +1000,8 @@ btnVolverConfiguracion.style.display = 'block';
     if (pantallaEditar) pantallaEditar.style.display = "none";
     if (pantallaJuego) pantallaJuego.style.display = "none";
 
-    const botonesViejos = container.querySelectorAll(".fixed-buttons");
-    botonesViejos.forEach(b => b.remove());
+    const botonesViejos = container.querySelectorAll(".game-fixed");
+botonesViejos.forEach(b => b.remove());
   });
 }
 window.mostrarPantallaDeJuego = mostrarPantallaDeJuego;
@@ -1000,6 +1094,100 @@ document.getElementById("btnEliminarNombres").addEventListener("click", () => {
   nombresPersonalizados = [];
   alert("Nombres eliminados");
   reiniciar();
+});
+// Mostrar la pantalla de selección de temáticas
+function mostrarPantallaSeleccionTematicas() {
+  const contenedor = document.getElementById("lista-tematicas");
+  contenedor.innerHTML = "";
+
+  // Generar checkboxes para todas las temáticas disponibles
+  Object.keys(famososPorTematica).forEach(t => {
+    contenedor.innerHTML += `
+      <label style="display:block; margin:5px 0;">
+        <input type="checkbox" value="${t}">
+        ${t.charAt(0).toUpperCase() + t.slice(1)}
+      </label>
+    `;
+  });
+
+  document.getElementById("pantalla-inicial").style.display = "none";
+  document.getElementById("pantalla-seleccionar-tematicas").style.display = "block";
+}
+
+// Confirmar selección
+document.getElementById("btnConfirmarTematicas").addEventListener("click", () => {
+  const seleccionadas = Array.from(
+    document.querySelectorAll('#lista-tematicas input:checked')
+  ).map(cb => cb.value);
+
+  if (seleccionadas.length === 0) {
+    alert("Debes seleccionar al menos una temática");
+    return;
+  }
+
+  // Guardar en variable global
+  window.tematicasSeleccionadas = seleccionadas;
+
+  // Volver a pantalla inicial
+  document.getElementById("pantalla-seleccionar-tematicas").style.display = "none";
+  document.getElementById("pantalla-inicial").style.display = "block";
+});
+
+// Cancelar selección
+document.getElementById("btnCancelarTematicas").addEventListener("click", () => {
+  document.getElementById("pantalla-seleccionar-tematicas").style.display = "none";
+  document.getElementById("pantalla-inicial").style.display = "block";
+});
+// Variable global para almacenar las temáticas elegidas
+window.tematicasSeleccionadas = [];
+
+// Función para abrir pantalla de selección
+function mostrarPantallaSeleccionTematicas() {
+  const lista = document.getElementById("lista-tematicas");
+  lista.innerHTML = "";
+
+  Object.keys(famososPorTematica).forEach(t => {
+    lista.innerHTML += `
+      <label style="display:block; margin:6px 0;">
+        <input type="checkbox" value="${t}" ${window.tematicasSeleccionadas.includes(t) ? 'checked' : ''}>
+        ${t.charAt(0).toUpperCase() + t.slice(1)}
+      </label>
+    `;
+  });
+
+  document.getElementById("pantalla-inicial").style.display = "none";
+  document.getElementById("pantalla-seleccionar-tematicas").style.display = "block";
+}
+
+// Confirmar selección
+document.getElementById("btnConfirmarTematicas").addEventListener("click", () => {
+  const seleccionadas = Array.from(document.querySelectorAll('#lista-tematicas input:checked'))
+    .map(cb => cb.value);
+
+  if (seleccionadas.length === 0) {
+    alert("Debes seleccionar al menos una temática");
+    return;
+  }
+
+  window.tematicasSeleccionadas = seleccionadas;
+
+  // Mostrar resumen en pantalla inicial
+  document.getElementById("tematicasSeleccionadasTexto").textContent = seleccionadas.join(", ");
+
+  document.getElementById("pantalla-seleccionar-tematicas").style.display = "none";
+  document.getElementById("pantalla-inicial").style.display = "block";
+});
+
+// Cancelar selección
+document.getElementById("btnCancelarTematicas").addEventListener("click", () => {
+  document.getElementById("pantalla-seleccionar-tematicas").style.display = "none";
+  document.getElementById("pantalla-inicial").style.display = "block";
+});
+
+// Abrir selección desde el botón
+document.getElementById("btnSeleccionarTematicas").addEventListener("click", (e) => {
+  e.preventDefault();
+  mostrarPantallaSeleccionTematicas();
 });
 
 });

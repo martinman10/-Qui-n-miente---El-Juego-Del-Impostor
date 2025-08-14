@@ -405,11 +405,13 @@ html, body {
 @media (min-width: 768px) {
   .container {
     max-width: 600px;
-    height: 80vh;
+    height: auto;               /* 🔹 antes 80vh */
+    min-height: 80vh;           /* 🔹 asegura altura mínima */
     padding: 30px 25px;
     border-radius: 15px;
     box-shadow: 0 15px 40px rgba(0,0,0,0.1);
   }
+
 
   .modal {
     max-width: 600px;
@@ -437,7 +439,6 @@ html, body {
   width: 100%;
   max-width: 480px;
   padding: 10px 20px;
-  background-color: white;
   text-align: center;
   z-index: 999;
 }
@@ -460,6 +461,7 @@ html, body {
     bottom: 120px;
   }
 }
+
 .loader {
   border: 6px solid #f3f3f3;
   border-top: 6px solid #ff4757;
@@ -585,4 +587,569 @@ html, body {
   font-size: 1em; /* igual que el texto normal */
   font-weight: 700;
   display: inline; /* evita que salten de línea */
+}
+#inputs-nombres-container {
+  max-height: 240px;  /* altura para que entren aprox. 4 jugadores */
+  overflow-y: auto;
+  margin-bottom: 100px; /* espacio para que no tapen los botones */
+  padding-right: 5px;
+}
+
+/* Botones siempre visibles centrados */
+#pantalla-editar-nombres .fixed-buttons {
+  position: sticky;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px; /* igual que el contenedor principal */
+  background: white;
+  padding: 10px 20px;
+  text-align: center;
+  z-index: 999;
+}
+
+#pantalla-editar-nombres .fixed-buttons button {
+  width: 100%;
+  margin: 5px 0;
+}
+#pantalla-editar-nombres .fixed-buttons {
+  position: fixed;       /* en vez de sticky */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  background: white;
+  padding: 10px 20px;
+  text-align: center;
+  z-index: 999;
+}
+
+#pantalla-editar-nombres .fixed-buttons button {
+  width: 100%;
+  margin: 5px 0;
+}
+#pantalla-editar-nombres {
+  margin-top: 0 !important; /* quita el margen superior que lo baja */
+  padding-top: 10px;        /* espacio mínimo arriba */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#inputs-nombres-container {
+  max-height: 240px;
+  overflow-y: auto;
+  margin-bottom: 80px;  /* espacio para los botones fijos */
+  padding-right: 5px;
+  width: 100%;
+}
+/* Subir la pantalla de Editar nombres */
+#pantalla-editar-nombres {
+  margin-top: 10px !important; /* pequeño margen arriba */
+}
+
+#pantalla-editar-nombres.container {
+  justify-content: flex-start !important; /* alinea arriba */
+}
+/* Subir el contenido solo en Editar nombres */
+#main {
+  display: flex;
+}
+
+#pantalla-editar-nombres {
+  align-self: flex-start;
+  width: 100%;
+}
+
+.container#main {
+  justify-content: flex-start !important; /* alinear arriba */
+}
+/* Ajuste de posición para los botones de Editar nombres */
+#pantalla-editar-nombres .fixed-buttons {
+  bottom: 20px !important; /* antes eran 100px o 120px */
+}
+/* --- Editar Nombres (móvil) --- */
+@media (max-width: 767px) {
+  #pantalla-editar-nombres .fixed-buttons {
+    bottom: 100px !important;   /* súbelos: probá 100–140px a gusto */
+  }
+  #inputs-nombres-container {
+    margin-bottom: 240px !important; /* deja hueco para esos botones más altos */
+  }
+}
+  .container#pantalla-seleccionar-tematicas #lista-tematicas {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+  }
+@media (min-width: 768px) {
+  .container#pantalla-seleccionar-tematicas {
+    display: flex;
+    flex-direction: column;
+    justify-content: center !important; /* centra verticalmente */
+    align-items: center !important;     /* centra horizontalmente */
+    height: 100% !important;
+    min-height: 80vh;
+    padding: 30px 20px;
+    box-sizing: border-box;
+  }
+
+  .container#pantalla-seleccionar-tematicas #lista-tematicas {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+  }
+}
+#pantalla-seleccionar-tematicas {
+  height: calc(var(--vh, 1vh) * 100);
+  overflow-y: auto;
+  padding-bottom: 150px; /* para no tapar botones fijos */
+}
+
+#lista-tematicas {
+  margin-top: 20px;
+}
+/* Separar botones en la pantalla de selección de temáticas */
+#pantalla-seleccionar-tematicas .fixed-buttons button {
+  margin-bottom: 12px; /* separa verticalmente */
+}
+
+#pantalla-seleccionar-tematicas .fixed-buttons button:last-child {
+  margin-bottom: 0; /* el último no necesita margen extra */
+}
+#pantalla-seleccionar-tematicas {
+  min-height: calc(var(--vh, 1vh) * 100);
+  overflow-y: auto;
+  padding-bottom: 140px; /* espacio para botones */
+}
+/* Asegurar que los botones fijos siempre estén por encima de todo */
+.fixed-buttons {
+  z-index: 10000 !important;
+  pointer-events: auto;
+  display: block !important;
+  position: fixed; /* por si algún estado lo cambia */
+}
+
+/* Bajamos cualquier pantalla de juego por las dudas */
+#pantalla-juego {
+  position: relative;
+  z-index: 1;
+}
+
+/* Por si algo deja un overlay activo accidentalmente */
+.modal-overlay {
+  z-index: 9000;
+}
+.fixed-buttons {
+  z-index: 10000 !important;
+}
+
+#tematicasSeleccionadasTexto {
+  flex: 1;
+  min-width: 0;               /* Necesario para que flexbox permita recortar */
+  white-space: nowrap;        /* No saltar de línea */
+  overflow: hidden;           /* Ocultar el sobrante */
+  text-overflow: ellipsis;    /* Mostrar "..." si no entra */
+}
+
+#botonElegirTematicas {
+  flex: 0 0 150px;   /* ❗ ancho fijo de 150px, ajusta a tu gusto */
+}
+#filaTematicas {           /* ID o clase del contenedor de botón, texto y lápiz */
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+#tematicasSeleccionadasTexto {
+  flex: 1;
+  min-width: 0;            /* muy importante para que ellipsis funcione */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#botonElegirTematicas {
+  flex-shrink: 0;           /* evita que el botón se achique */
+}
+#filaTematicas {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%; /* ✅ ocupa siempre todo el ancho disponible */
+}
+/* ==== PARCHE FINAL: tamaño estable del card y sin "achique" ==== */
+
+/* 1) Nada de recortar/forzar el alto global: */
+html, body {
+  overflow: auto !important;
+  height: auto !important;
+}
+
+/* 2) Contenedor principal siempre del mismo ancho, en todas las pantallas: */
+:root { --card-max: 600px; }          /* cambialo a 480px si lo preferís más angosto */
+.container#main {
+  width: 100% !important;
+  max-width: var(--card-max) !important;
+  margin: 0 auto !important;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch !important;
+}
+
+/* 3) Cada pantalla ocupa todo el ancho del contenedor: */
+#pantalla-inicial,
+#pantalla-editar-nombres,
+#pantalla-editar-tematica,
+#pantalla-seleccionar-tematicas,
+#pantalla-juego {
+  width: 100% !important;
+}
+
+/* 4) Fila de temáticas: botón + texto + lápiz sin deformarse */
+#filaTematicas {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+#btnSeleccionarTematicas {
+  flex: 0 0 170px;         /* ancho fijo del botón */
+}
+#tematicasSeleccionadasTexto {
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* si el texto es largo, se corta con … */
+}
+#btnEditarTematica {
+  flex: 0 0 auto;       /* no crece */
+  width: 40px;          /* ancho fijo */
+  height: 40px;         /* alto fijo */
+  padding: 0;           /* sin relleno interno */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#btnEditarTematica img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* 5) Logo con tamaño estable (opcional) */
+.logo-icono { width: 100px !important; height: auto !important; }
+
+/* 6) Botones fijos: consistentes y por encima de todo */
+.fixed-buttons {
+  position: fixed !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 100% !important;
+  max-width: var(--card-max) !important;
+  z-index: 10000 !important;
+  padding: 10px 20px;
+}
+@media (max-width: 767px) { .fixed-buttons { bottom: 100px !important; } }
+@media (min-width: 768px) { .fixed-buttons { bottom: 120px !important; } }
+/* ===== Fila "Temática": botón + texto + lápiz ===== */
+#filaTematicas{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  width:100%;
+}
+
+/* Dentro de esta fila, ningún botón debe tomar width:100% ni tener margen superior */
+#filaTematicas button{
+  width:auto;        /* anula el width:100% global de los botones */
+  margin-top:0;      /* que no baje dentro de la fila */
+  box-shadow:none;   /* sin sombra para que el lápiz no parezca “botonazo” */
+}
+
+/* Botón rojo "Elegir temáticas" con ancho fijo */
+#btnSeleccionarTematicas{
+  flex:0 0 170px;    /* podés subir/bajar este número a gusto (p.ej. 160–200px) */
+}
+
+/* Texto con puntos suspensivos si se hace largo */
+#tematicasSeleccionadasTexto{
+  flex:1 1 auto;
+  min-width:0;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* Botón del lápiz: tamaño pequeño y estable */
+#btnEditarTematica{
+  flex:0 0 auto;
+  width:40px;
+  height:40px;
+  padding:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1.8px solid #ddd;
+  border-radius:8px;
+  background:#eee;
+  color:#333;
+}
+#btnEditarTematica:hover{ background:#e6e6e6; }
+#filaTematicas {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+/* Mismo tamaño para los dos botones */
+#btnSeleccionarTematicas {
+  flex: 0 0 170px;
+  height: 48px;
+  padding: 0;
+  border-radius: 8px;
+  background-color: #ff4757; /* rojo */
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 6px 12px rgba(255, 71, 87, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#btnEditarTematica {
+  flex: 0 0 170px;
+  height: 48px;
+  padding: 0;
+  border-radius: 8px;
+  background-color: #ddd; /* gris claro */
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#btnEditarTematica img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+#btnSeleccionarTematicas:hover {
+  background-color: #e84118;
+}
+
+#btnEditarTematica:hover {
+  background-color: #ddd; /* un gris un poco más oscuro al pasar el mouse */
+}
+
+#filaTematicas {
+  display: flex;
+  align-items: center;
+  gap: 0; /* sin separación entre los botones */
+  width: 100%;
+}
+
+#btnSeleccionarTematicas {
+  flex: 0 0 170px;
+  height: 48px;
+  padding: 0;
+  border-radius: 8px 0 0 8px; /* bordes redondeados solo a la izquierda */
+  background-color: #ff4757; /* rojo */
+  color: white;
+  font-weight: 700;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#btnEditarTematica {
+  flex: 0 0 170px;
+  height: 48px;
+  padding: 0;
+  border-radius: 0 8px 8px 0; /* bordes redondeados solo a la derecha */
+  background-color: #ddd; /* gris claro */
+  color: white;
+  font-weight: 700;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#btnEditarTematica img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+#btnSeleccionarTematicas:hover {
+  background-color: #e84118;
+}
+
+#btnEditarTematica:hover {
+  background-color: #ccc;
+}
+/* Fila con los dos botones pegados */
+#filaTematicas {
+  display: flex;
+  align-items: center;
+  gap: 0; /* sin separación */
+  width: 100%;
+}
+
+/* Botón rojo */
+#btnSeleccionarTematicas {
+  flex: 0 0 170px;
+  height: 48px;
+  padding: 0;
+  border-radius: 8px 0 0 8px; /* redondeado a la izquierda */
+  background-color: #ff4757;
+  color: white;
+  font-weight: 700;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Botón lápiz gris */
+#btnEditarTematica {
+  flex: 0 0 170px;
+  height: 48px;
+  padding: 0;
+  border-radius: 0 8px 8px 0; /* redondeado a la derecha */
+  background-color: #ddd;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#btnEditarTematica img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+#btnSeleccionarTematicas:hover {
+  background-color: #e84118;
+}
+
+#btnEditarTematica:hover {
+  background-color: #ccc;
+}
+#filaTematicas {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+}
+
+/* Todos los botones dentro de la fila: sin margen */
+#filaTematicas button {
+  margin: 0;
+  border: none; /* quita borde por defecto */
+}
+
+/* Botón rojo */
+#btnSeleccionarTematicas {
+  flex: 0 0 170px;
+  height: 48px;
+  padding: 0;
+  border-radius: 8px 0 0 8px;
+  background-color: #ff4757;
+  color: white;
+  font-weight: 700;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Botón lápiz gris */
+#btnEditarTematica {
+  flex: 0 0 170px;
+  height: 48px;
+  padding: 0;
+  border-radius: 0 8px 8px 0;
+  background-color: #ddd;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#btnEditarTematica img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+#btnSeleccionarTematicas:hover {
+  background-color: #e84118;
+}
+
+#btnEditarTematica:hover {
+  background-color: #ccc;
+}
+#filaTematicas {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+}
+
+#filaTematicas button {
+  margin: 0;
+  border: none;
+  height: 48px;
+  padding: 0;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Botón rojo: ocupa la mitad izquierda */
+#btnSeleccionarTematicas {
+  flex: 1; /* ocupa todo lo que pueda */
+  border-radius: 8px 0 0 8px;
+  background-color: #ff4757;
+  color: white;
+  box-shadow: none;
+}
+
+#btnSeleccionarTematicas:hover {
+  background-color: #e84118;
+}
+
+/* Botón gris: ocupa la mitad derecha */
+#btnEditarTematica {
+  flex: 1; /* ocupa todo lo que pueda */
+  border-radius: 0 8px 8px 0;
+  background-color: #ddd;
+  box-shadow: none;
+}
+
+#btnEditarTematica:hover {
+  background-color: #ccc;
+}
+
+#btnEditarTematica img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
 }

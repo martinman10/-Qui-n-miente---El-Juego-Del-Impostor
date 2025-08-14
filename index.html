@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Quién Miente?</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@900&family=Bebas+Neue&display=swap" rel="stylesheet">
@@ -13,8 +13,6 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="apple-touch-icon" href="img/iconoquienmiente.png">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-</head>
 <body>
   <button class="help-button" id="btnAyuda">?</button>
 <!-- Botón volver -->
@@ -39,22 +37,13 @@
 <select id="duracion"></select>
 
       <label for="tematica">Temática:</label>
-<div style="display:flex; gap:6px; align-items:center;">
-    <select id="tematica">
-        <option value="todos" selected>Todos</option>
-        <option value="futbol">Futbol</option>
-        <option value="uruguay">Uruguayos</option>
-        <option value="musica">Música</option>
-        <option value="peliculasyseries">Peliculas y Series</option>
-        <option value="politicos">Politicos</option>
-        <option value="influencers">Influencers</option>
-        <option value="farandula">Farandula</option>
-    </select>
-    <button id="btnEditarTematica" title="Editar temática" 
-            style="background:#eee; border:1px solid #ccc; border-radius:4px; padding:4px 6px; cursor:pointer;">
-        ✏️
-    </button>
+<div id="filaTematicas">
+  <button id="btnSeleccionarTematicas">Elegir temáticas</button>
+  <button id="btnEditarTematica" title="Editar temáticas">
+    <img src="img/lapiz.png" alt="Editar">
+  </button>
 </div>
+
 
       <button id="btnComenzarJuego">Comenzar</button>
       <button id="btnEditarNombres">Editar nombres</button>
@@ -62,11 +51,20 @@
 
 <div id="pantalla-editar-nombres" style="display: none;">
   <h2>Editar nombres</h2>
-  <div id="inputs-nombres"></div>
-  <button id="btnGuardarNombres">Guardar</button>
-  <button id="btnCancelarEdicion">Cancelar</button>
-  <button id="btnEliminarNombres">Eliminar nombres guardados</button>
+
+  <!-- Contenedor con scroll -->
+  <div id="inputs-nombres-container">
+    <div id="inputs-nombres"></div>
+  </div>
+
+  <!-- Botones fijos -->
+  <div class="fixed-buttons">
+    <button id="btnGuardarNombres">Guardar</button>
+    <button id="btnCancelarEdicion">Cancelar</button>
+    <button id="btnEliminarNombres">Eliminar nombres guardados</button>
+  </div>
 </div>
+
 <div id="pantalla-editar-tematica" style="display: none;">
   <h2>Editar temática</h2>
   <p style="text-align:left; font-size:0.95rem; color:#444; margin-bottom:8px;">
@@ -77,10 +75,18 @@
   <button id="btnGuardarTematica">Guardar</button>
   <button id="btnCancelarTematica">Cancelar</button>
 </div>
+<div id="pantalla-seleccionar-tematicas" style="display: none;">
+  <h2>Selecciona las temáticas</h2>
+  <div id="lista-tematicas"></div>
 
+  <div class="fixed-buttons">
+    <button id="btnConfirmarTematicas">Confirmar</button>
+    <button id="btnCancelarTematicas">Cancelar</button>
+  </div>
+</div>
     <div id="pantalla-juego" style="display: none;"></div>
   </div>
-
+</div>
 
   <div class="modal-overlay" id="modal">
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
