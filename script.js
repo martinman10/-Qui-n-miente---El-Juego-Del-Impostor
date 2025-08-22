@@ -632,6 +632,79 @@ ajustarAltura();
 { nombre: "Noelia Marzol", foto: "img/noelia_marzol.jpg" },
 { nombre: "Nati Jota", foto: "img/nati_jota.jpg" },
 { nombre: "Gaston Edul", foto: "img/gaston_edul.jpg" },
+{ nombre: "Nicolás Vázquez", foto: "img/nico_vazquez.jpg" },
+{ nombre: "Gimena Accardi", foto: "img/gime_accardi.jpg" },
+{ nombre: "La China Suárez", foto: "img/china_suarez.jpg" },
+{ nombre: "Franco Mastantuono", foto: "img/franco_mastantuono.jpg" },
+{ nombre: "Jude Bellingham", foto: "img/jude_bellingham.jpg" },
+{ nombre: "Vinícius Júnior", foto: "img/vinicius_junior.jpg" },
+{ nombre: "Lamine Yamal", foto: "img/lamine_yamal.jpg" },
+{ nombre: "Pedri", foto: "img/pedri.jpg" },
+{ nombre: "Jamal Musiala", foto: "img/jamal_musiala.jpg" },
+{ nombre: "Florian Wirtz", foto: "img/florian_wirtz.jpg" },
+{ nombre: "Bukayo Saka", foto: "img/bukayo_saka.jpg" },
+{ nombre: "Phil Foden", foto: "img/phil_foden.jpg" },
+{ nombre: "Declan Rice", foto: "img/declan_rice.jpg" },
+{ nombre: "Trent Alexander-Arnold", foto: "img/trent_alexander_arnold.jpg" },
+{ nombre: "Marcus Rashford", foto: "img/marcus_rashford.jpg" },
+{ nombre: "Mason Mount", foto: "img/mason_mount.jpg" },
+{ nombre: "Kai Havertz", foto: "img/kai_havertz.jpg" },
+{ nombre: "Joshua Kimmich", foto: "img/joshua_kimmich.jpg" },
+{ nombre: "Leon Goretzka", foto: "img/leon_goretzka.jpg" },
+{ nombre: "Alphonso Davies", foto: "img/alphonso_davies.jpg" },
+{ nombre: "Theo Hernández", foto: "img/theo_hernandez.jpg" },
+{ nombre: "Rafael Leão", foto: "img/rafael_leao.jpg" },
+{ nombre: "Khvicha Kvaratskhelia", foto: "img/khvicha_kvaratskhelia.jpg" },
+{ nombre: "Lautaro Martínez", foto: "img/lautaro_martinez.jpg" },
+{ nombre: "Joško Gvardiol", foto: "img/josko_gvardiol.jpg" },
+{ nombre: "Achraf Hakimi", foto: "img/achraf_hakimi.jpg" },
+{ nombre: "Son Heung-min", foto: "img/son_heung_min.jpg" },
+{ nombre: "Bruno Fernandes", foto: "img/bruno_fernandes.jpg" },
+{ nombre: "Casemiro", foto: "img/casemiro.jpg" },
+{ nombre: "Antony", foto: "img/antony.jpg" },
+{ nombre: "Richarlison", foto: "img/richarlison.jpg" },
+{ nombre: "Álisson Becker", foto: "img/alisson_becker.jpg" },
+{ nombre: "Thibaut Courtois", foto: "img/thibaut_courtois.jpg" },
+{ nombre: "Jan Oblak", foto: "img/jan_oblak.jpg" },
+{ nombre: "Raphaël Varane", foto: "img/raphael_varane.jpg" },
+{ nombre: "Antonio Rüdiger", foto: "img/antonio_rudiger.jpg" },
+{ nombre: "Áymeric Laporte", foto: "img/aymeric_laporte.jpg" },
+{ nombre: "João Cancelo", foto: "img/joao_cancelo.jpg" },
+{ nombre: "Bernardo Silva", foto: "img/bernardo_silva.jpg" },
+{ nombre: "Riyad Mahrez", foto: "img/riyad_mahrez.jpg" },
+{ nombre: "Martin Ødegaard", foto: "img/martin_odegaard.jpg" },
+{ nombre: "Christian Pulisic", foto: "img/christian_pulisic.jpg" },
+{ nombre: "Xavi Simons", foto: "img/xavi_simons.jpg" },
+{ nombre: "Federico Chiesa", foto: "img/federico_chiesa.jpg" },
+{ nombre: "Ragnar Lothbrok", foto: "img/ragnar_lothbrok.jpg" },
+{ nombre: "Lagertha", foto: "img/lagertha.jpg" },
+{ nombre: "Floki", foto: "img/floki.jpg" },
+{ nombre: "Bjorn Ironside", foto: "img/bjorn_ironside.jpg" },
+{ nombre: "Ivar el Deshuesado", foto: "img/ivar.jpg" },
+{ nombre: "Tommy Shelby", foto: "img/tommy_shelby.jpg" },
+{ nombre: "Arthur Shelby", foto: "img/arthur_shelby.jpg" },
+{ nombre: "Alfie Solomons", foto: "img/alfie_solomons.jpg" },
+{ nombre: "Michael Gray", foto: "img/michael_gray.jpg" },
+{ nombre: "Polly Gray", foto: "img/polly_gray.jpg" },
+{ nombre: "Walter White Jr.", foto: "img/walter_white_jr.jpg" },
+{ nombre: "Jesse Pinkman", foto: "img/jesse_pinkman.jpg" },
+{ nombre: "Saul Goodman", foto: "img/saul_goodman.jpg" },
+{ nombre: "Gus Fring", foto: "img/gus_fring.jpg" },
+{ nombre: "Mike Ehrmantraut", foto: "img/mike_ehrmantraut.jpg" },
+{ nombre: "Tony Soprano", foto: "img/tony_soprano.jpg" },
+{ nombre: "Paulie Gualtieri", foto: "img/paulie_gualtieri.jpg" },
+{ nombre: "Omar Little", foto: "img/omar_little.jpg" },
+{ nombre: "Rick Grimes", foto: "img/rick_grimes.jpg" },
+{ nombre: "Daryl Dixon", foto: "img/daryl_dixon.jpg" },
+{ nombre: "Negan", foto: "img/negan.jpg" },
+{ nombre: "Glenn Rhee", foto: "img/glenn_rhee.jpg" },
+{ nombre: "Shane Walsh", foto: "img/shane_walsh.jpg" },
+{ nombre: "Yamandú Orsi", foto: "img/yamandu.jpg" },
+{ nombre: "Chayanne", foto: "img/chayanne.jpg" },
+{ nombre: "Marco Antonio Solís", foto: "img/marco_antonio_solis.jpg" },
+{ nombre: "Lola Índigo", foto: "img/lola_indigo.jpg" },
+{ nombre: "Aitana", foto: "img/aitana.jpg" },
+{ nombre: "Manuel Turizo", foto: "img/manuel_turizo.jpg" },
 ];
   const famososPorTematica = {
   todos: famosos.map(f => f.nombre),
@@ -662,31 +735,36 @@ ajustarAltura();
 "Rodrigo Bentancur", "Rodrigo Romano", "Rubén Sosa", "Ruben Rada", "SantiCAP", 
 "Sebastián Abreu", "Sebastián Coates", "Sebastián Giovanelli", "Sergio Gorzy", "Sergio Rochet", 
 "Tabaré Cardozo", "Tabaré Vázquez", "The La Planta", "Tussi Warriors", "Vale Sulca", 
-"Wilson Ferreira Aldunate", "Yao Cabrera", "Yonatan Rodríguez"
+"Wilson Ferreira Aldunate", "Yao Cabrera", "Yonatan Rodríguez","Yamandú Orsi",
 ],
-  Futbol: ["Agustín Canobbio", "Alfonso Espino", "Alessandro Del Piero", "Álvaro Recoba", "Andrés Iniesta", "Ángel Correa",
-"Ángel Di María", "Antoine Griezmann", "Atilio García", "Arjen Robben", "Ashley Cole", "Blaise Matuidi",
-"Brayan Cortés", "Brian Ocampo", "Brian Rodríguez", "Bruno Arady", "Carlo Ancelotti", "Carlos Tévez",
-"Cesc Fàbregas", "Christian Oliva", "Cole Palmer", "Cristiano Ronaldo", "Dani Alves", "Damián Suárez",
-"Darwin Núñez", "David Beckham", "David Silva", "David Terans", "Diego Costa", "Diego Forlán",
-"Diego Godín", "Diego Lugano", "Diego Maradona", "Diego Simeone", "Edin Džeko", "Edinson Cavani",
-"Eduardo Darias", "Eduardo Vargas", "Emanuel Gularte", "Emiliano Velázquez", "Enzo Francescoli", "Eric Remedi",
-"Erling Haaland", "Exequiel Mereles", "Facundo Machado", "Facundo Pellistri", "Fede Valverde", "Felipe Carballo",
-"Felipe Carvalho", "Fernando Morena", "Fernando Muslera", "Fernando Torres", "Francesco Totti", "Franco Fagúndez",
-"Franck Ribéry", "Gabriel Báez", "Gabriel Batistuta", "Gareth Bale", "Gastón Silva", "Gerard Moreno", "Gerard Piqué",
-"Gianluigi Buffon", "Gianluigi Donnarumma", "Gonzalo Bergessio", "Gonzalo Carneiro", "Gonzalo Petit", "Guillermo Cotugno",
-"Guti", "Harry Kane", "Héctor Scarone", "Héctor Villalba", "Iago Aspas", "Iker Casillas", "Ignacio Lores", "Ignacio Sosa",
-"Javier Cabrera", "Javier Hernández", "Javier Mascherano", "Jeremia Recoba", "Jesús Trindade", "Jonathan Rodríguez",
-"João Félix", "José Mourinho", "Juan Mata", "Juan Román Riquelme", "Karim Benzema", "Keylor Navas", "Kevin De Bruyne",
-"Kevin-Prince Boateng", "Kylian Mbappé", "Leonardo Fernández", "Léo Coelho", "Lionel Messi", "Lucas Torreira",
-"Lucas Villalba", "Luciano Boggio", "Luis Artime", "Luis Mejía", "Luis Suárez", "Luka Jović", "Luka Modrić",
-"Manuel Neuer", "Marcelo", "Marcelo Brozović", "Martín Cáceres", "Martín Palermo", "Matías Arezo", "Matías Viña",
-"Mauro Icardi", "Maxi Gómez", "Maximiliano Olivera", "Maximiliano Silvera", "Memphis Depay", "Michy Batshuayi",
-"Mohamed Salah", "Neymar Jr.", "Nico López", "Nicolas Lodeiro", "Nicolás de la Cruz", "Obdulio Varela", "Paolo Calione",
-"Paulo Dybala", "Paulo Ferreira", "Pedro Milans", "Pelé", "Pep Guardiola", "Raheem Sterling", "Raúl González",
-"Robert Lewandowski", "Robert Pires", "Rodrigo Bentancur", "Ronaldinho", "Ronaldo Nazario", "Romelu Lukaku",
-"Rubén Sosa", "Samuel Eto’o", "Sergio Agüero", "Sergio Ramos", "Sergio Rochet", "Sebastián Abreu", "Sebastián Coates",
-"Toni Kroos", "Virgil van Dijk", "Yonatan Rodríguez", "Zinedine Zidane"
+  Futbol: ["Agustín Canobbio", "Alessandro Del Piero", "Alfonso Espino", "Álvaro Recoba", "Ángel Correa", "Ángel Di María", "Andrés Iniesta",
+"Antoine Griezmann", "Arjen Robben", "Ashley Cole", "Atilio García", "Blaise Matuidi", "Brayan Cortés", "Brian Ocampo", "Brian Rodríguez",
+"Bruno Arady", "Carlo Ancelotti", "Carlos Tévez", "Cesc Fàbregas", "Christian Oliva", "Cole Palmer", "Cristiano Ronaldo", "Damián Suárez",
+"Dani Alves", "Darwin Núñez", "David Beckham", "David Silva", "David Terans", "Diego Costa", "Diego Forlán", "Diego Godín", "Diego Lugano",
+"Diego Maradona", "Diego Simeone", "Edin Džeko", "Edinson Cavani", "Eduardo Darias", "Eduardo Vargas", "Emanuel Gularte",
+"Emiliano Velázquez", "Enzo Francescoli", "Eric Remedi", "Erling Haaland", "Exequiel Mereles", "Facundo Machado", "Facundo Pellistri",
+"Fede Valverde", "Felipe Carballo", "Felipe Carvalho", "Fernando Morena", "Fernando Muslera", "Fernando Torres", "Francesco Totti",
+"Franco Fagúndez", "Franco Mastantuono", "Franck Ribéry", "Gabriel Báez", "Gabriel Batistuta", "Gareth Bale", "Gastón Silva",
+"Gerard Moreno", "Gerard Piqué", "Gianluigi Buffon", "Gianluigi Donnarumma", "Gonzalo Bergessio", "Gonzalo Carneiro", "Gonzalo Petit",
+"Guillermo Cotugno", "Guti", "Harry Kane", "Héctor Scarone", "Héctor Villalba", "Iago Aspas", "Ignacio Lores", "Ignacio Sosa",
+"Iker Casillas", "Javier Cabrera", "Javier Hernández", "Javier Mascherano", "Jeremia Recoba", "Jesús Trindade", "João Félix",
+"Jonathan Rodríguez", "José Mourinho", "Juan Mata", "Juan Román Riquelme", "Karim Benzema", "Keylor Navas", "Kevin De Bruyne",
+"Kevin-Prince Boateng", "Kylian Mbappé", "Leonardo Fernández", "Léo Coelho", "Lionel Messi", "Lucas Torreira", "Lucas Villalba",
+"Luciano Boggio", "Luis Artime", "Luis Mejía", "Luis Suárez", "Luka Jović", "Luka Modrić", "Manuel Neuer", "Marcelo",
+"Marcelo Brozović", "Martín Cáceres", "Martín Palermo", "Matías Arezo", "Matías Viña", "Maxi Gómez", "Maximiliano Olivera",
+"Maximiliano Silvera", "Mauro Icardi", "Memphis Depay", "Michy Batshuayi", "Mohamed Salah", "Neymar Jr.", "Nico López",
+"Nicolas Lodeiro", "Nicolás de la Cruz", "Obdulio Varela", "Paolo Calione", "Paulo Dybala", "Paulo Ferreira", "Pedro Milans",
+"Pelé", "Pep Guardiola", "Raheem Sterling", "Raúl González", "Robert Lewandowski", "Robert Pires", "Rodrigo Bentancur",
+"Ronaldinho", "Ronaldo Nazario", "Romelu Lukaku", "Rubén Sosa", "Samuel Eto’o", "Sebastián Abreu", "Sebastián Coates",
+"Sergio Agüero", "Sergio Ramos", "Sergio Rochet", "Toni Kroos", "Virgil van Dijk", "Yonatan Rodríguez", "Zinedine Zidane",
+"Jude Bellingham", "Vinícius Júnior", "Lamine Yamal", "Pedri", "Jamal Musiala", 
+"Florian Wirtz", "Bukayo Saka", "Phil Foden", "Declan Rice", "Trent Alexander-Arnold",
+"Marcus Rashford", "Mason Mount", "Kai Havertz", "Joshua Kimmich", "Leon Goretzka",
+"Alphonso Davies", "Theo Hernández", "Rafael Leão", "Khvicha Kvaratskhelia", "Lautaro Martínez",
+"Joško Gvardiol", "Achraf Hakimi", "Son Heung-min", "Bruno Fernandes", "Casemiro",
+"Antony", "Richarlison", "Álisson Becker", "Thibaut Courtois", "Jan Oblak",
+"Raphaël Varane", "Antonio Rüdiger", "Áymeric Laporte", "João Cancelo", "Bernardo Silva",
+"Riyad Mahrez", "Martin Ødegaard", "Christian Pulisic", "Xavi Simons", "Federico Chiesa"
 ],
   Cine: ["Abraham Simpson", "Al Pacino", "Angelina Jolie", "Anne Hathaway", "Apu Nahasapeemapetilon", 
 "Barney Gómez", "Bart Simpson", "Batman", "Bob Esponja","Bob Patiño", "Brad Pitt", 
@@ -710,36 +788,37 @@ ajustarAltura();
 "Smithers", "Sonic", "Spider-Man", "Stitch", "Superman", 
 "Ted", "The Rock", "Thor", "Tin Tin", "Tom","Tom Holland", 
 "Tom Cruise", "Tom Hanks", "Vegeta", "Venom", "Vin Diesel", 
-"Walter White", "Will Smith", "Woody", "Yoda", "Zendaya"
+"Walter White", "Will Smith", "Woody", "Yoda", "Zendaya","Ragnar Lothbrok", "Lagertha", "Floki", "Bjorn Ironside", "Ivar el Deshuesado",
+"Tommy Shelby", "Arthur Shelby", "Alfie Solomons", "Michael Gray", "Polly Gray",
+"Walter White Jr.", "Jesse Pinkman", "Saul Goodman", "Gus Fring", "Mike Ehrmantraut",
+"Tony Soprano", "Paulie Gualtieri", "Omar Little","Rick Grimes", "Daryl Dixon",
+"Negan", "Glenn Rhee", "Shane Walsh"
   ],
-  Musica: [ "50 Cent", "Adele", "Agustín Casanova", "Alejandro Sanz", "Anuel AA", 
-"Arcangel", "Ariana Grande", "Bad Bunny", "Bad Gyal", "Beyoncé", 
-"Billie Eilish", "Bizarrap", "Bruno Mars", "Britney Spears", "Camila Cabello", 
-"Camilo", "Carlos Vives", "Cazzu", "Chacho Ramos", 
-"Charly García", "Christina Aguilera", "Daddy Yankee", "Denis Elías", "Diego Torres", 
-"Doja Cat", "Don Omar", "Drake", "Dua Lipa", "Duki", 
-"Ed Sheeran", "Eladio Carrión", "Elvis Presley", "Eminem", "Enrique Iglesias", 
-"Farruko", "Feid", "Fito Páez", "Freddie Mercury", "Gustavo Cerati", "Harry Styles",
-"J Balvin", "Jay-Z", "Jennifer Lopez", "Joaquín Sabina", "Jorge Drexler", 
-"Juanes", "Kanye West", "Karol G", "Katy Perry", "Kendrick Lamar", 
-"Kurt Cobain", "La Joaqui", "Lali Esposito", "Luck Ra", "Luana", 
-"Lucas Sugo", "Luis Fonsi", "Madonna", "Maluma", "Marc Anthony", 
-"Marcos Da Costa", "María Becerra", "Martín Piña", "Michael Jackson", "Miley Cyrus", 
-"Myke Towers", "Natalia Oreiro", "Nathy Peluso", "Nicki Nicole", "Ozuna", 
-"Paulina Rubio", "Paulo Londra", "Peke 77", "Peso Pluma", "Pepe Guerra", 
-"Post Malone", "Prince Royce", "Quevedo", "Rauw Alejandro", "Residente", 
-"Ricardo Arjona", "Ricardo Montaner", "Ricky Martin", "Romeo Santos", "Rosalía", 
-"Ruben Rada", "Sam Smith", "Sech", "Selena Gomez", "Shakira", 
-"Shawn Mendes", "Snoop Dogg", "Sofía Reyes", "Taylor Swift", "The La Planta", 
-"The Weeknd", "Tiago PZK", "Tini Stoessel", "Travis Scott", "Tussi Warriors", 
-"Whitney Houston", "Wisin", "Yandel", "Young Miko"
+  Musica: [ "50 Cent", "Aitana", "Adele", "Agustín Casanova", "Ariana Grande", "Anuel AA", "Arcangel", 
+"Bad Bunny", "Bad Gyal", "Beyoncé", "Billie Eilish", "Bizarrap", "Bruno Mars", "Britney Spears", 
+"Camila Cabello", "Camilo", "Carlos Vives", "Cazzu", "Chacho Ramos", "Charly García", 
+"Chayanne", "Christina Aguilera", "Daddy Yankee", "Denis Elías", "Diego Torres", "Doja Cat", 
+"Don Omar", "Drake", "Dua Lipa", "Duki", "Ed Sheeran", "Eladio Carrión", "Elvis Presley", 
+"Eminem", "Enrique Iglesias", "Farruko", "Feid", "Fito Páez", "Freddie Mercury", "Gustavo Cerati", 
+"Harry Styles", "J Balvin", "Jay-Z", "Jennifer Lopez", "Joaquín Sabina", "Jorge Drexler", 
+"Juanes", "Kanye West", "Karol G", "Katy Perry", "Kendrick Lamar", "Kurt Cobain", "La Joaqui", 
+"Lali Esposito", "Lola Índigo", "Luana", "Lucas Sugo", "Luis Fonsi", "Madonna", "Maluma", 
+"Marc Anthony", "Marcos Da Costa","Marco Antonio Solís", "María Becerra", "Martín Piña", "Manuel Turizo", 
+"Michael Jackson", "Miley Cyrus", "Myke Towers", "Natalia Oreiro", "Nathy Peluso", "Nicki Nicole", 
+"Ozuna", "Paula Rubio", "Paulo Londra", "Peke 77", "Peso Pluma", "Pepe Guerra", "Post Malone", 
+"Prince Royce", "Quevedo", "Rauw Alejandro", "Residente", "Ricardo Arjona", "Ricardo Montaner", 
+"Ricky Martin", "Romeo Santos", "Rosalía", "Ruben Rada", "Sam Smith", "Sech", "Selena Gomez", 
+"Shakira", "Shawn Mendes", "Snoop Dogg", "Sofía Reyes", "Taylor Swift", "The La Planta", 
+"The Weeknd", "Tiago PZK", "Tini Stoessel", "Travis Scott", "Tussi Warriors", "Whitney Houston", 
+"Wisin", "Yandel", "Young Miko",
 ],
-  Farandula: ["Adrián Suar", "Ángel De Brito", "Carmen Barbieri", "Flor Jazmín", "Florencia Peña", 
-"Gaspi", "Graciela Alfano","Gaston Edul", "Homero Pettinato", "Jorge Rial", "Lizzy Tagliani", 
-"Luquitas Rodriguez", "Marcelo Tinelli", "Marley", "Martin Cirio", "Maxi de la Cruz", 
-"Miguel Granados", "Mirtha Legrand", "Moria Casán", "Moski", "Nacho Elizalde", "Nati Jota",
-"Nico Occhiato", "Pampita", "Susana Giménez", "Tomas Mazza", "Wanda Nara", 
-"Yanina Latorre","José María Listorti", "Aníbal Pachano","Jey Mammón","Noelia Marzol",
+  Farandula: ["Adrián Suar", "Ángel De Brito", "Aníbal Pachano", "Carmen Barbieri", "Flor Jazmín", 
+"Florencia Peña", "Gaspi", "Gaston Edul", "Gimena Accardi", "Graciela Alfano", 
+"Homero Pettinato", "Jey Mammón", "Jorge Rial", "José María Listorti", "La China Suárez", 
+"Lizzy Tagliani", "Luquitas Rodriguez", "Marcelo Tinelli", "Marley", "Martin Cirio", 
+"Maxi de la Cruz", "Miguel Granados", "Mirtha Legrand", "Moria Casán", "Moski", 
+"Nacho Elizalde", "Nati Jota", "Nico Occhiato", "Nicolás Vázquez", "Noelia Marzol", 
+"Pampita", "Susana Giménez", "Wanda Nara", "Yanina Latorre"
   ],
   Politicos: ["Barack Obama", "Bill Clinton", "Donald Trump", "George W. Bush", "Hillary Clinton", 
 "Javier Milei", "Joe Biden", "John F. Kennedy", "José Batlle y Ordóñez", "José Mujica", 
@@ -750,7 +829,7 @@ ajustarAltura();
   Influencers: ["AuronPlay", "Coscu", "Davo Xeneize", "DjMaRiiO", "Dross", "El Rubius", 
 "Fernanfloo", "GuilleFutbol", "Ibai Llanos", "IShowSpeed", "Javo Machado", 
 "Johnny Te Cuento","Kylie Jenner", "Kim Kardashian","La Cobra","Lea Sosa", "Luisito Comunica", "MrBeast", "Peke 77", 
-"SantiCAP", "Spreen", "TheGrefg", "Tussi Warriors", "Vale Sulca", 
+"SantiCAP", "Spreen", "TheGrefg", "Tussi Warriors", "Vale Sulca", "Tomas Mazza",
 "Vegetta777", "Willyrex", "Yao Cabrera"
   ],
   Simpsons: ["Abraham Simpson", "Apu Nahasapeemapetilon", "Barney Gómez", "Bart Simpson","Bob Patiño", "Homero Simpson", 
@@ -876,6 +955,11 @@ let juegoIniciado = false;
 const btnVolverConfiguracion = document.getElementById('btnVolverConfiguracion');
 
 btnVolverConfiguracion.addEventListener('click', () => {
+  // 🆕 limpiar UI de juego al salir
+  const container = document.getElementById('main');
+  if (window.intervalo) { clearInterval(window.intervalo); window.intervalo = null; }
+  container.querySelectorAll('.game-fixed, .card').forEach(el => el.remove());
+
   // Ocultar todas las pantallas
   document.querySelectorAll('.container > div').forEach(div => div.style.display = 'none');
   // Mostrar pantalla de configuraciones
@@ -883,7 +967,6 @@ btnVolverConfiguracion.addEventListener('click', () => {
   // Ocultar el botón de volver
   btnVolverConfiguracion.style.display = 'none';
 });
-
 
     function comenzarJuego() {
   totalJugadores = parseInt(document.getElementById("jugadores").value);
@@ -1121,6 +1204,11 @@ btnVolverConfiguracion.style.display = 'block';
 
 window.continuarSiguiente = continuarSiguiente;
 function reiniciar() {
+    // 🆕 limpiar UI de juego
+  const container = document.getElementById('main');
+  if (window.intervalo) { clearInterval(window.intervalo); window.intervalo = null; }
+  container.querySelectorAll('.game-fixed, .card').forEach(el => el.remove());
+
   juegoIniciado = false;
 
   const pantallaInicial = document.getElementById("pantalla-inicial");
@@ -1223,6 +1311,8 @@ actualizarTemporizador();
 window.intervalo = setInterval(actualizarTemporizador, 1000);
 
   document.getElementById("terminarRondaBtn").addEventListener("click", () => {
+      // 🆕 frenar temporizador si está corriendo
+  if (window.intervalo) { clearInterval(window.intervalo); window.intervalo = null; }
     btnVolverConfiguracion.style.display = "none"; // Ocultar flecha atrás
 
     // Ocultar pantalla de juego y mostrar pantalla inicial (configuración)
