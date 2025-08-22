@@ -490,11 +490,12 @@ html, body {
   background: white;
   border-radius: 16px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  padding: 100px 20px 30px; /* 💡 más padding-top para bajar el texto dentro de la carta */
+  padding: 40px 20px 30px;  /* menos padding arriba */
   max-width: 400px;
   width: 100%;
   min-height: 240px;
-  margin: 0px auto 80px; /* 💡 carta más cerca del borde superior */
+  margin: 20px auto;  /* margen arriba y abajo más equilibrado */
+  text-align: center; /* asegura que el contenido quede centrado */
 }
 
 #main {
@@ -1152,4 +1153,25 @@ html, body {
   width: 24px;
   height: 24px;
   object-fit: contain;
+}
+/* 🔥 Eliminar fondos blancos de todos los contenedores */
+.container,
+.card,
+.carta-turno,
+.carta-pasar,
+.modal,
+.modal-footer,
+#pantalla-editar-nombres .fixed-buttons {
+  background: transparent !important;
+}
+/* 📱 Subir los botones flotantes en pantallas chicas */
+@media (max-width: 768px) {
+  .game-fixed {
+    bottom: 80px !important; /* los sube un poco más */
+  }
+}
+@media (max-width: 768px) {
+  button.game-fixed {
+    bottom: 80px !important;
+  }
 }
