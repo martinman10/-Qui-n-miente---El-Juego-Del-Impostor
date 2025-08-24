@@ -1515,3 +1515,71 @@ document.getElementById("btnSeleccionarTematicas").addEventListener("click", (e)
 });
 
 });
+// ====== Tema claro/oscuro con recordatorio y visibilidad por pantalla ======
+(function () {
+  const THEME_KEY = 'tema'; // 'claro' | 'oscuro'
+
+  function applyTheme(theme) {
+    const isDark = theme === 'oscuro';
+    document.body.classList.toggle('tema-oscuro', isDark);
+    localStorage.setItem(THEME_KEY, isDark ? 'oscuro' : 'claro');
+
+    // Actualizar <meta name="theme-color"> para que combine con el tema (PWA / barra del navegador)
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    if (metaTheme) {
+      // usamos --surface para que la barra tome el color del "panel"
+      const surface = getComputedStyle(document.documentElement).getPropertyValue('--surface').trim();
+      metaTheme.setAttribute('content', surface || (isDark ? '#151a22' : '#ffffff'));
+    }
+  }
+
+  function initTheme() {
+    const saved = localStorage.getItem(THEME_KEY);
+    const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyTheme(saved ?? (systemPrefersDark ? 'oscuro' : 'claro'));
+    updateThemeIcon();
+  }
+
+  function toggleTheme() {
+    const isDark = !document.body.classList.contains('tema-oscuro');
+    applyTheme(isDark ? 'oscuro' : 'claro');
+    updateThemeIcon();
+  }
+
+  function updateThemeIcon() {
+    const btn = document.getElementById('btnTema');
+    if (!btn) return;
+    // Icono: si está oscuro, mostramos ☀️ para indicar que pasarías a claro; si está claro, 🌙
+    const isDark = document.body.classList.contains('tema-oscuro');
+    btn.textContent = isDark ? '☀️' : '🌙';
+  }
+
+  // Mostrar el botón SOLO cuando la pantalla de configuración está visible
+  function updateThemeButtonVisibility() {
+    const btn = document.getElementById('btnTema');
+    const pantallaInicial = document.getElementById('pantalla-inicial');
+    if (!btn || !pantallaInicial) return;
+
+    const visible = getComputedStyle(pantallaInicial).display !== 'none';
+    btn.style.display = visible ? 'flex' : 'none';
+  }
+
+  // Iniciar cuando cargue el DOM
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('btnTema');
+    if (btn) btn.addEventListener('click', toggleTheme);
+
+    initTheme();
+    updateThemeButtonVisibility();
+
+    // Observamos cambios en el árbol para detectar cuando cambiás de pantalla
+    const main = document.getElementById('main');
+    if (main) {
+      const observer = new MutationObserver(updateThemeButtonVisibility);
+      observer.observe(main, { attributes: true, childList: true, subtree: true });
+    }
+
+    // Por si algún estilo cambia por viewport
+    window.addEventListener('resize', updateThemeButtonVisibility);
+  });
+})();
