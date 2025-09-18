@@ -712,38 +712,138 @@ document.getElementById("btnEliminarNombres").addEventListener("click", () => {
   alert("Nombres eliminados");
   reiniciar();
 });
-// Mostrar la pantalla de selección de temáticas
-function mostrarPantallaSeleccionTematicas() {
-  const contenedor = document.getElementById("lista-tematicas");
+
+// ====== NUEVA FUNCIONALIDAD: SELECCIÓN DE TEMÁTICAS CON TARJETAS ======
+
+// Variable global para almacenar las temáticas elegidas
+window.tematicasSeleccionadas = [];
+
+// Función para generar las tarjetas de temáticas
+function generarTarjetasTematicas() {
+  const contenedor = document.getElementById("lista-tematicas-cards");
   contenedor.innerHTML = "";
 
-  // Generar checkboxes para todas las temáticas disponibles
-  Object.keys(famososPorTematica).forEach(t => {
-    contenedor.innerHTML += `
-      <label style="display:block; margin:5px 0;">
-        <input type="checkbox" value="${t}">
-        ${t.charAt(0).toUpperCase() + t.slice(1)}
-      </label>
-    `;
-  });
+  // Crear un objeto de ejemplo de temáticas (reemplaza con tu famososPorTematica real)
+  const tematicasEjemplo = {
+    "actores": ["Leonardo DiCaprio", "Meryl Streep", "Tom Hanks", "Scarlett Johansson"],
+    "cantantes": ["Taylor Swift", "Ed Sheeran", "Beyoncé", "Justin Bieber"],
+    "deportistas": ["Lionel Messi", "Cristiano Ronaldo", "Serena Williams", "LeBron James"],
+    "políticos": ["Barack Obama", "Angela Merkel", "Justin Trudeau", "Jacinda Ardern"],
+    "youtubers": ["PewDiePie", "MrBeast", "Markiplier", "Emma Chamberlain"],
+    "influencers": ["Kylie Jenner", "James Charles", "Charli D'Amelio", "Addison Rae"]
+  };
 
+  // Usar famososPorTematica si existe, sino usar el ejemplo
+  const tematicas = typeof famososPorTematica !== 'undefined' ? famososPorTematica : tematicasEjemplo;
+
+  Object.keys(tematicas).forEach((tematica, index) => {
+    const cantidad = tematicas[tematica].length;
+    const estaSeleccionada = window.tematicasSeleccionadas.includes(tematica);
+    
+    const tarjeta = document.createElement("div");
+    tarjeta.className = `tematica-card ${estaSeleccionada ? 'selected' : ''}`;
+    tarjeta.dataset.tematica = tematica;
+    tarjeta.style.animationDelay = `${index * 0.05}s`;
+    
+    tarjeta.innerHTML = `
+      <div class="tematica-name">${tematica.charAt(0).toUpperCase() + tematica.slice(1)}</div>
+      <div class="tematica-count">${cantidad} famosos</div>
+    `;
+    
+    // Evento de click para seleccionar/deseleccionar
+    tarjeta.addEventListener('click', () => {
+      const isSelected = tarjeta.classList.contains('selected');
+      
+      if (isSelected) {
+        // Deseleccionar
+        tarjeta.classList.remove('selected');
+        window.tematicasSeleccionadas = window.tematicasSeleccionadas.filter(t => t !== tematica);
+      } else {
+        // Seleccionar
+        tarjeta.classList.add('selected');
+        window.tematicasSeleccionadas.push(tematica);
+      }
+      
+      actualizarContadorSeleccionadas();
+      actualizarBotonConfirmar();
+    });
+    
+    contenedor.appendChild(tarjeta);
+  });
+}
+
+// Función para actualizar el contador de temáticas seleccionadas
+function actualizarContadorSeleccionadas() {
+  const contador = document.getElementById("contador-seleccionadas");
+  const cantidad = window.tematicasSeleccionadas.length;
+  
+  if (cantidad === 0) {
+    contador.textContent = "0 temáticas seleccionadas";
+    contador.style.color = "#6c757d";
+  } else if (cantidad === 1) {
+    contador.textContent = "1 temática seleccionada";
+    contador.style.color = "#ff4757";
+  } else {
+    contador.textContent = `${cantidad} temáticas seleccionadas`;
+    contador.style.color = "#ff4757";
+  }
+}
+
+// Función para actualizar el estado del botón confirmar
+function actualizarBotonConfirmar() {
+  const boton = document.getElementById("btnConfirmarTematicas");
+  const cantidad = window.tematicasSeleccionadas.length;
+  
+  if (cantidad === 0) {
+    boton.disabled = true;
+    boton.textContent = "Selecciona al menos una temática";
+  } else {
+    boton.disabled = false;
+    boton.textContent = `Confirmar ${cantidad} temática${cantidad > 1 ? 's' : ''}`;
+  }
+}
+
+// Función para mostrar la pantalla de selección de temáticas
+function mostrarPantallaSeleccionTematicas() {
+  generarTarjetasTematicas();
+  actualizarContadorSeleccionadas();
+  actualizarBotonConfirmar();
+  
   document.getElementById("pantalla-inicial").style.display = "none";
   document.getElementById("pantalla-seleccionar-tematicas").style.display = "block";
 }
 
+// Función para actualizar el texto de temáticas seleccionadas en la pantalla inicial
+function actualizarTextoTematicasSeleccionadas() {
+  const texto = document.getElementById("tematicasSeleccionadasTexto");
+  
+  if (window.tematicasSeleccionadas.length === 0) {
+    texto.textContent = "Ninguna temática seleccionada";
+    texto.style.color = "#999";
+  } else {
+    const nombres = window.tematicasSeleccionadas.map(t => 
+      t.charAt(0).toUpperCase() + t.slice(1)
+    ).join(", ");
+    texto.textContent = nombres;
+    texto.style.color = "#333";
+  }
+}
+
+// Event listeners para los botones de temáticas
+document.getElementById("btnSeleccionarTematicas").addEventListener("click", (e) => {
+  e.preventDefault();
+  mostrarPantallaSeleccionTematicas();
+});
+
 // Confirmar selección
 document.getElementById("btnConfirmarTematicas").addEventListener("click", () => {
-  const seleccionadas = Array.from(
-    document.querySelectorAll('#lista-tematicas input:checked')
-  ).map(cb => cb.value);
-
-  if (seleccionadas.length === 0) {
+  if (window.tematicasSeleccionadas.length === 0) {
     alert("Debes seleccionar al menos una temática");
     return;
   }
 
-  // Guardar en variable global
-  window.tematicasSeleccionadas = seleccionadas;
+  // Actualizar el texto en la pantalla inicial
+  actualizarTextoTematicasSeleccionadas();
 
   // Volver a pantalla inicial
   document.getElementById("pantalla-seleccionar-tematicas").style.display = "none";
@@ -755,59 +855,11 @@ document.getElementById("btnCancelarTematicas").addEventListener("click", () => 
   document.getElementById("pantalla-seleccionar-tematicas").style.display = "none";
   document.getElementById("pantalla-inicial").style.display = "block";
 });
-// Variable global para almacenar las temáticas elegidas
-window.tematicasSeleccionadas = [];
 
-// Función para abrir pantalla de selección
-function mostrarPantallaSeleccionTematicas() {
-  const lista = document.getElementById("lista-tematicas");
-  lista.innerHTML = "";
-
-  Object.keys(famososPorTematica).forEach(t => {
-    lista.innerHTML += `
-      <label style="display:block; margin:6px 0;">
-        <input type="checkbox" value="${t}" ${window.tematicasSeleccionadas.includes(t) ? 'checked' : ''}>
-        ${t.charAt(0).toUpperCase() + t.slice(1)}
-      </label>
-    `;
-  });
-
-  document.getElementById("pantalla-inicial").style.display = "none";
-  document.getElementById("pantalla-seleccionar-tematicas").style.display = "block";
-}
-
-// Confirmar selección
-document.getElementById("btnConfirmarTematicas").addEventListener("click", () => {
-  const seleccionadas = Array.from(document.querySelectorAll('#lista-tematicas input:checked'))
-    .map(cb => cb.value);
-
-  if (seleccionadas.length === 0) {
-    alert("Debes seleccionar al menos una temática");
-    return;
-  }
-
-  window.tematicasSeleccionadas = seleccionadas;
-
-  // Mostrar resumen en pantalla inicial
-  document.getElementById("tematicasSeleccionadasTexto").textContent = seleccionadas.join(", ");
-
-  document.getElementById("pantalla-seleccionar-tematicas").style.display = "none";
-  document.getElementById("pantalla-inicial").style.display = "block";
-});
-
-// Cancelar selección
-document.getElementById("btnCancelarTematicas").addEventListener("click", () => {
-  document.getElementById("pantalla-seleccionar-tematicas").style.display = "none";
-  document.getElementById("pantalla-inicial").style.display = "block";
-});
-
-// Abrir selección desde el botón
-document.getElementById("btnSeleccionarTematicas").addEventListener("click", (e) => {
-  e.preventDefault();
-  mostrarPantallaSeleccionTematicas();
-});
+// ====== FIN NUEVA FUNCIONALIDAD ======
 
 });
+
 // ====== Tema claro/oscuro con recordatorio y visibilidad por pantalla ======
 (function () {
   const THEME_KEY = 'tema'; // 'claro' | 'oscuro'

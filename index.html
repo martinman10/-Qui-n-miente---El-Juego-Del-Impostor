@@ -46,6 +46,9 @@
   </button>
 </div>
 
+<div id="tematicasSeleccionadasTexto" style="margin-top: 10px; font-size: 0.9rem; color: #666; text-align: left;">
+  Ninguna temática seleccionada
+</div>
 
       <button id="btnComenzarJuego">Comenzar</button>
       <button id="btnEditarNombres">Editar nombres</button>
@@ -77,15 +80,25 @@
   <button id="btnGuardarTematica">Guardar</button>
   <button id="btnCancelarTematica">Cancelar</button>
 </div>
+
 <div id="pantalla-seleccionar-tematicas" style="display: none;">
   <h2>Selecciona las temáticas</h2>
-  <div id="lista-tematicas"></div>
+  <p class="subtitle">Toca las temáticas que quieras incluir en el juego</p>
+  
+  <div id="lista-tematicas-cards" class="tematicas-grid">
+    <!-- Las tarjetas se generarán dinámicamente aquí -->
+  </div>
+
+  <div class="selected-counter">
+    <span id="contador-seleccionadas">0 temáticas seleccionadas</span>
+  </div>
 
   <div class="fixed-buttons">
-    <button id="btnConfirmarTematicas">Confirmar</button>
-    <button id="btnCancelarTematicas">Cancelar</button>
+    <button id="btnConfirmarTematicas" class="btn-primary">Confirmar selección</button>
+    <button id="btnCancelarTematicas" class="btn-secondary">Cancelar</button>
   </div>
 </div>
+
     <div id="pantalla-juego" style="display: none;"></div>
   </div>
 </div>
