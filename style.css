@@ -1372,7 +1372,7 @@ body.tema-oscuro {
   --bg: #0f1115;
   --text: #eaeaea;
   --surface: #151a22;
-  --accent: #1f6feb;
+  --accent: #ff4757;
   --btn-text: #ffffff;
   --input-bg: #0f1115;
   --input-border: #2a2f3a;
@@ -1442,13 +1442,43 @@ select, input, textarea {
   opacity: 0.92; 
 }
 
+/* CORRECCIÓN PARA MODO OSCURO - AHORA CON ROJO */
 body.tema-oscuro {
-  background: black !important;
-  color: lime !important;
+  background: #0f1115 !important;
+  color: #eaeaea !important;
 }
 
-label {
-  color: var(--text);
+/* Asegurar que las tarjetas de temáticas tengan buen contraste en modo oscuro */
+body.tema-oscuro .tematica-card {
+  background: linear-gradient(135deg, #2a2f3a 0%, #1e2329 100%);
+  border-color: #3a4047;
+  color: #eaeaea;
+}
+
+body.tema-oscuro .tematica-card:hover {
+  border-color: #ff4757;
+}
+
+body.tema-oscuro .tematica-card.selected {
+  background: linear-gradient(135deg, #ff4757 0%, #e84118 100%);
+  border-color: #e84118;
+  color: white;
+}
+
+/* Subtítulo en modo oscuro */
+body.tema-oscuro .subtitle {
+  color: #8b949e;
+}
+
+/* Contador de seleccionadas en modo oscuro */
+body.tema-oscuro .selected-counter {
+  background: #2a2f3a;
+  color: #eaeaea;
+}
+
+/* Labels en modo oscuro */
+body.tema-oscuro label {
+  color: #eaeaea;
 }
 
 .logo-icono {
