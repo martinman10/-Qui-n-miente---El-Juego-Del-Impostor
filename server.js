@@ -13,7 +13,7 @@ const io = socketIo(server, {
 });
 
 // Servir archivos estáticos desde la carpeta "public"
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname)));
 
 // Almacén de salas en memoria
 const rooms = new Map();
