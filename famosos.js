@@ -575,3 +575,4 @@
 { nombre: "Aitana", foto: "img/aitana.jpg" },
 { nombre: "Manuel Turizo", foto: "img/manuel_turizo.jpg" },
 ];
+
