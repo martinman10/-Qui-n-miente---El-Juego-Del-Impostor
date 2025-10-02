@@ -6,15 +6,16 @@ const path = require('path');
 const app = express();
 const server = http.createServer(app);
 // AÑADE pingInterval y pingTimeout
+// En server.js, modifica la configuración de io:
 const io = socketIo(server, {
   cors: {
     origin: "*",
     methods: ["GET", "POST"]
   },
-  // Intervalo de ping a 20s (el cliente envía un 'ping' cada 20s)
-  pingInterval: 20000, 
-  // Timeout a 40s (si no recibe 'pong' en 40s, desconecta)
-  pingTimeout: 40000 
+  // Mantenemos un intervalo de ping razonable
+  pingInterval: 25000, 
+  // ¡Aumenta el tiempo de espera a 2 minutos! (120,000 milisegundos)
+  pingTimeout: 120000 
 });
 
 
