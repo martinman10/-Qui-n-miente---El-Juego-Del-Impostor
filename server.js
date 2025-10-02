@@ -5,15 +5,20 @@ const path = require('path');
 
 const app = express();
 const server = http.createServer(app);
+// AÑADE pingInterval y pingTimeout
 const io = socketIo(server, {
   cors: {
     origin: "*",
     methods: ["GET", "POST"]
-  }
+  },
+  // Intervalo de ping a 20s (el cliente envía un 'ping' cada 20s)
+  pingInterval: 20000, 
+  // Timeout a 40s (si no recibe 'pong' en 40s, desconecta)
+  pingTimeout: 40000 
 });
 
-// Servir archivos estáticos desde la carpeta "public"
-app.use(express.static(path.join(__dirname)));
+
+app.use(express.static(path.join(__dirname,)));
 
 // Almacén de salas en memoria
 const rooms = new Map();
