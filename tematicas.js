@@ -4,7 +4,7 @@
   Uruguay: ["Agustín Canobbio", "Agustín Casanova", "Alberto Sonsol", "Alfonso Espino", "Alfredo Zitarrosa", 
 "Alvaro Navia", "Andrés Cunha", "Atilio García", "Álvaro Recoba", "Brian Rodríguez", 
 "Bruno Arady", "Cacho Castaña (UY)", "Cacho de la Cruz", "Cecilia Bonino", 
-"Chacho Ramos", "China Zorrilla", "Christian Oliva", "Cristina Morán", "Damián Suárez", 
+"Chacho Ramos", "China Zorrilla", "Christian Oliva", "Damián Suárez", 
 "Daniel Viglietti", "Darwin Núñez", "David Terans", "Denis Elías", "Diego Forlán", 
 "Diego Godín", "Diego Lugano", "Eduardo Darias", "Eduardo Galeano", "Edinson Cavani", 
 "El Bananero", "El Zaraza", "Emanuel Gularte", "Emiliano Velázquez", "Enzo Francescoli", 
@@ -129,3 +129,4 @@
 "Moe Szyslak", "Mr. Burns", "Ned Flanders", "Nelson Muntz", "Smithers"
 ]
 };
+window.famososPorTematica = famososPorTematica;

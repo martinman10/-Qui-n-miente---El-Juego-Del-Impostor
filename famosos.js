@@ -326,7 +326,6 @@
   { nombre: "Tiago PZK", foto: "img/tiagopzk.jpg" },  
   { nombre: "Bad Gyal", foto: "img/BadGyal.jpg" },
   { nombre: "Young Miko", foto: "img/youngmiko.jpg" },
-  { nombre: "Cristina Morán", foto: "img/cristina_moran.jpg" },
   { nombre: "China Zorrilla", foto: "img/china_zorrilla.jpg" },
   { nombre: "Eduardo Galeano", foto: "img/eduardo_galeano.jpg" },
   { nombre: "Mario Benedetti", foto: "img/mario_benedetti.jpg" },
@@ -575,4 +574,4 @@
 { nombre: "Aitana", foto: "img/aitana.jpg" },
 { nombre: "Manuel Turizo", foto: "img/manuel_turizo.jpg" },
 ];
-
+window.famosos = famosos;

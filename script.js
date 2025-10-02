@@ -294,13 +294,32 @@ btnVolverConfiguracion.addEventListener('click', () => {
     tematicaAnterior = tematicaSeleccionada;
   }
 
+  // 🔹 VERIFICAR QUE HAY FAMOSOS DISPONIBLES
+  if (!famososDisponibles || famososDisponibles.length === 0) {
+    alert("No hay famosos disponibles para la temática seleccionada. Por favor, selecciona otra temática o revisa las exclusiones.");
+    return;
+  }
+
   jugadorActual = 1;
   impostoresArray = [];
 
   // Elegimos un famoso aleatorio de los disponibles y lo eliminamos de la lista
   const randomIndex = Math.floor(Math.random() * famososDisponibles.length);
   const nombreElegido = famososDisponibles.splice(randomIndex, 1)[0];
+  
+  // 🔹 VERIFICAR QUE EL NOMBRE ELEGIDO NO SEA NULL O UNDEFINED
+  if (!nombreElegido) {
+    alert("Error: No se pudo seleccionar un famoso. Reinicia el juego.");
+    return;
+  }
+  
   famosoElegido = famosos.find(f => f.nombre === nombreElegido);
+  
+  // 🔹 VERIFICAR QUE SE ENCONTRÓ EL FAMOSO EN LA LISTA
+  if (!famosoElegido) {
+    alert(`Error: No se encontró información para ${nombreElegido}. Reinicia el juego.`);
+    return;
+  }
 
   while (impostoresArray.length < totalImpostores) {
     let random = Math.floor(Math.random() * totalJugadores) + 1;
@@ -399,12 +418,12 @@ btnVolverConfiguracion.style.display = 'block';
            </p>`
         : `<div style="width: 52vw; max-width: 290px; height: 280px; overflow: hidden; background: white; padding: 0; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:center;">
              <div class="loader"></div>
-             <img src="${famosoElegido.foto || 'img/default.jpg'}"
-                  alt="${famosoElegido.nombre}"
+             <img src="${famosoElegido && famosoElegido.foto ? famosoElegido.foto : 'img/default.jpg'}"
+                  alt="${famosoElegido && famosoElegido.nombre ? famosoElegido.nombre : 'Famoso'}"
                   style="width: 100%; height: 100%; object-fit: cover; object-position: center; border-radius: 12px; display:none;">
            </div>
            <p style="font-size: 22px; font-weight: bold; text-align: center; margin-top: 14px; color: #2ecc71;">
-             ${famosoElegido.nombre}
+             ${famosoElegido && famosoElegido.nombre ? famosoElegido.nombre : 'Famoso'}
            </p>`
     }
   `;

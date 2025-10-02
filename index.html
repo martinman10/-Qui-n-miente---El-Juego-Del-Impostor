@@ -52,7 +52,13 @@
 
       <button id="btnComenzarJuego">Comenzar</button>
       <button id="btnEditarNombres">Editar nombres</button>
+      
+      <!-- BOTÓN MULTIJUGADOR ONLINE CON ESTILO ROJO -->
+      <button id="btnMultijugador" style="background-color: #ff4757; color: white; font-weight: 700; box-shadow: 0 6px 12px rgba(255, 71, 87, 0.5); margin-top: 15px;">
+        🌐 Multijugador Online
+      </button>
     </div>
+    <div id="pantalla-multijugador" style="display: none;"></div>
 
 <div id="pantalla-editar-nombres" style="display: none;">
   <h2>Editar nombres</h2>
@@ -142,8 +148,47 @@
   </div>
 </div>
 
+<!-- Socket.IO para multijugador -->
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+<script>
+  // Conexión global para que todos los scripts puedan usar `socket`
+  window.socket = io("https://quien-miente-server.onrender.com", {
+    transports: ["websocket", "polling"]
+  });
+
+  window.socket.on("connect", () => {
+    console.log("✅ Conectado al servidor:", window.socket.id);
+  });
+
+  window.socket.on("connect_error", (err) => {
+    console.error("❌ Error de conexión Socket.IO:", err && err.message);
+  });
+
+  window.socket.on("disconnect", (reason) => {
+    console.log("⚠️ Desconectado:", reason);
+  });
+</script>
+
 <script src="famosos.js"></script>
 <script src="tematicas.js"></script>
+<script src="multiplayer.js"></script>
 <script src="script.js"></script>
+
+<script>
+// Agregar funcionalidad del botón multijugador
+document.addEventListener('DOMContentLoaded', function() {
+  const btnMultijugador = document.getElementById('btnMultijugador');
+  if (btnMultijugador) {
+    btnMultijugador.addEventListener('click', function() {
+      // Ocultar pantalla inicial
+      document.getElementById('pantalla-inicial').style.display = 'none';
+      
+      // Mostrar menú multijugador
+      multiplayerManager.showMultiplayerMenu();
+    });
+  }
+});
+</script>
+
 </body>
 </html>
