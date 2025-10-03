@@ -14,9 +14,49 @@ class MultiplayerManager {
     this.timer = null;
     this.timerDuration = 0;
     this.timerRemaining = 0;
-
+    this.wakeLock = null; 
   }
+// En multiplayer.js, DENTRO de la clase MultiplayerManager
+// (por ejemplo, después del constructor y antes de connect())
 
+// ================= MÉTODOS WAKE LOCK =================
+
+/**
+ * Solicita al navegador que mantenga la pantalla encendida.
+ */
+async requestWakeLock() {
+  // Comprueba si el navegador soporta la API
+  if ('wakeLock' in navigator) {
+    try {
+      // Solicita el bloqueo de pantalla
+      this.wakeLock = await navigator.wakeLock.request('screen');
+      console.log('✅ Bloqueo de pantalla (Wake Lock) activado.');
+
+      // Agrega un escuchador en caso de que el sistema fuerce la liberación (ej: el usuario presiona el botón de apagado)
+      this.wakeLock.addEventListener('release', () => {
+        console.log('⚠️ Bloqueo de pantalla (Wake Lock) liberado por el sistema.');
+        this.wakeLock = null; // Limpia la referencia
+      });
+      
+    } catch (err) {
+      // Si el usuario niega el permiso o hay otro error
+      console.error('❌ Error al solicitar Wake Lock:', err.name, err.message);
+      // No mostramos alerta, solo es un extra de usabilidad
+    }
+  }
+}
+
+/**
+ * Libera el bloqueo para que la pantalla pueda apagarse normalmente.
+ */
+releaseWakeLock() {
+  if (this.wakeLock) {
+    this.wakeLock.release(); // Libera la solicitud
+    this.wakeLock = null;     // Limpia la referencia
+    console.log('🚫 Bloqueo de pantalla (Wake Lock) liberado.');
+  }
+}
+// ======================================================
   // Conectar al servidor
   connect() {
     if (this.isConnected) return;
@@ -50,6 +90,8 @@ class MultiplayerManager {
       this.isHost = true;
       this.players = data.players;
       this.showLobby();
+      // ✅ INSERCIÓN: Activar el bloqueo
+      this.requestWakeLock();
     });
 
     // Jugador se unió - FIX 1: Mostrar lobby cuando se une exitosamente
@@ -60,9 +102,9 @@ class MultiplayerManager {
       const myPlayer = this.players.find(p => p.name === this.playerName);
       if (myPlayer && !this.isHost) {
         this.showLobby();
-      } else if (this.isHost) {
-        this.updatePlayersList();
-      }
+        // ✅ INSERCIÓN: Activar el bloqueo
+        this.requestWakeLock(); 
+      } 
       
       this.showMessage(`${data.newPlayer} se unió a la sala`);
     });
@@ -884,6 +926,8 @@ class MultiplayerManager {
     this.famosoData = null;
     this.stopTimer();
     this.isConnected = false;
+  // ✅ INSERCIÓN: Liberar el bloqueo de pantalla
+    this.releaseWakeLock(); 
   }
 
   showError(message) {
