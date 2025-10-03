@@ -15,6 +15,7 @@ class MultiplayerManager {
     this.timerDuration = 0;
     this.timerRemaining = 0;
     this.wakeLock = null; 
+     this.roleScreenActive = false; // Nueva propiedad
   }
 // En multiplayer.js, DENTRO de la clase MultiplayerManager
 // (por ejemplo, después del constructor y antes de connect())
@@ -31,18 +32,30 @@ async requestWakeLock() {
       // Solicita el bloqueo de pantalla
       this.wakeLock = await navigator.wakeLock.request('screen');
       console.log('✅ Bloqueo de pantalla (Wake Lock) activado.');
-
-      // Agrega un escuchador en caso de que el sistema fuerce la liberación (ej: el usuario presiona el botón de apagado)
       this.wakeLock.addEventListener('release', () => {
         console.log('⚠️ Bloqueo de pantalla (Wake Lock) liberado por el sistema.');
-        this.wakeLock = null; // Limpia la referencia
+        this.wakeLock = null;
       });
-      
-    } catch (err) {
-      // Si el usuario niega el permiso o hay otro error
-      console.error('❌ Error al solicitar Wake Lock:', err.name, err.message);
-      // No mostramos alerta, solo es un extra de usabilidad
+    } catch (e) {
+      console.warn('No se pudo activar el Wake Lock:', e);
     }
+  }
+}
+
+handleAllRolesSeen() {
+  // Si el jugador NO ha visto su rol, primero debe verlo
+  if (this.roleScreenActive) {
+    // Guardar que llegó la señal, pero no avanzar hasta que vea su rol
+    this._pendingAllRolesSeen = true;
+    console.log('⚠️ handleAllRolesSeen: Esperando que el jugador vea su rol antes de continuar.');
+    return;
+  }
+  // Lógica de transición normal
+  this.gameState = 'playing';
+  if (this.isHost) {
+    this.showStartTimerButton();
+  } else {
+    this.showWaitingForHost();
   }
 }
 
@@ -85,6 +98,7 @@ releaseWakeLock() {
 
   setupGameEvents() {
     // Sala creada
+
     this.socket.on('room-created', (data) => {
       this.currentRoom = data.roomCode;
       this.isHost = true;
@@ -148,12 +162,7 @@ releaseWakeLock() {
 
     // Todos vieron su rol - FIX 2: Solo cuando todos presionen continuar
     this.socket.on('all-roles-seen', () => {
-      this.gameState = 'playing';
-      if (this.isHost) {
-        this.showStartTimerButton();
-      } else {
-        this.showWaitingForHost();
-      }
+      this.handleAllRolesSeen();
     });
 
     // Temporizador iniciado
@@ -261,8 +270,14 @@ releaseWakeLock() {
 
   // FIX 2: Confirmar que vi mi rol y estoy listo para continuar
   confirmRoleSeen() {
+    this.roleScreenActive = false;
     this.socket.emit('ready-to-continue');
-    
+    // Si llegó la señal de all-roles-seen mientras veía el rol, ahora sí avanzar
+    if (this._pendingAllRolesSeen) {
+      this._pendingAllRolesSeen = false;
+      this.handleAllRolesSeen();
+      return;
+    }
     const container = document.getElementById('main');
     container.innerHTML = `
       <div class="card">
@@ -693,7 +708,7 @@ releaseWakeLock() {
 
   showMyRole() {
     const container = document.getElementById('main');
-    
+this.roleScreenActive = true; 
     if (this.myRole === 'impostor') {
       container.innerHTML = `
         <div class="card">
@@ -928,6 +943,7 @@ releaseWakeLock() {
     this.isConnected = false;
   // ✅ INSERCIÓN: Liberar el bloqueo de pantalla
     this.releaseWakeLock(); 
+    this.roleScreenActive = false; // Reiniciar
   }
 
   showError(message) {
@@ -959,4 +975,4 @@ releaseWakeLock() {
 }
 
 // Instancia global del manager
-const multiplayerManager = new MultiplayerManager();
+var multiplayerManager = new MultiplayerManager();
