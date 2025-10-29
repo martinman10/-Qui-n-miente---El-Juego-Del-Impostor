@@ -127,6 +127,7 @@
   Simpsons: ["Abraham Simpson", "Apu Nahasapeemapetilon", "Barney Gómez", "Bart Simpson","Bob Patiño", "Homero Simpson", 
 "Krusty el Payaso", "Lisa Simpson", "Maggie Simpson", "Marge Simpson", "Milhouse Van Houten", 
 "Moe Szyslak", "Mr. Burns", "Ned Flanders", "Nelson Muntz", "Smithers"
-]
+],
+  Conocidos: [“Martin Maneiro”, “Agustin Mayero”, “Jeremias Sosa”, “Nico Collazo”, “Ezequiel Perdomo”, “Lucia Maneiro”, “Facundo Camacho”, “Resta”, “Maravilla”, “Monango”, “Matias Perdomo”, “Evelin Perdomo”, “Nahuel Cornejo”, “Emiliano Zecchini”, “Andres Maneiro”, “Javier Cornejo”, “Andrea Maneiro”, “Yessi Mayero”, “Paola Mayero”, “Natalia Mayero”, “Nicolas Mayero”, “Daniel Mayero”, “Marcela Cabaña”, “Teresita Maneiro”, “Damian Maneiro”]
 };
 window.famososPorTematica = famososPorTematica;
