@@ -583,7 +583,7 @@
 { nombre: "Resta", foto: "img/resta.jpg" },
 { nombre: "Maravilla", foto: "img/pacheque.jpg" },
 { nombre: "Monango", foto: "img/monango.jpg" },
-{ nombre: "Matias Perdomo", foto: "img/matiperdomo.jpg" },
+{ nombre: "Matias Perdomo", foto: "img/matiperdomo.JPG" },
 { nombre: "Evelin Perdomo", foto: "img/eveperdomo.jpg" },
 { nombre: "Nahuel Cornejo", foto: "img/nahucornejo.jpg" },
 { nombre: "Emiliano Zecchini", foto: "img/emizecchini.jpg" },
