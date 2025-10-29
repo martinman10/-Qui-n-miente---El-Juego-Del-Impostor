@@ -598,8 +598,5 @@
 { nombre: "Marcela Cabaña", foto: "img/marcelacabaña.jpg" },
 { nombre: "Teresita Maneiro", foto: "img/tiatere.jpg" },
 { nombre: "Damian Maneiro", foto: "img/damimaneiro.jpg" },
-{ nombre: " ", foto: "img/nicomayero.jpg" },
-{ nombre: "Nicolas Mayero", foto: "img/nicomayero.jpg" },
-{ nombre: "Nicolas Mayero", foto: "img/nicomayero.jpg" },
 ];
 window.famosos = famosos;
