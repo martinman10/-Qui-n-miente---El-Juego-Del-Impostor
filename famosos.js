@@ -581,7 +581,7 @@
 { nombre: "Lucia Maneiro", foto: "img/lulimaneiro.jpg" },
 { nombre: "Facundo Camacho", foto: "img/pacheque.jpg" },
 { nombre: "Resta", foto: "img/resta.JPG" },
-{ nombre: "Maravilla", foto: "img/pacheque.jpg" },
+{ nombre: "Maravilla", foto: "img/maravilla.jpg" },
 { nombre: "Monango", foto: "img/monango.jpg" },
 { nombre: "Matias Perdomo", foto: "img/matiperdomo.JPG" },
 { nombre: "Evelin Perdomo", foto: "img/eveperdomo.jpg" },
