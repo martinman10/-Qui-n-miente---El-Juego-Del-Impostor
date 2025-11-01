@@ -579,7 +579,7 @@
 { nombre: "Jeremias Sosa", foto: "img/jeresosa.jpg" },
 { nombre: "Nico Collazo", foto: "img/nicocollazo.JPG" },
 { nombre: "Ezequiel Perdomo", foto: "img/ezeperdomo.jpg" },
-{ nombre: "Lucia Maneiro", foto: "img/lulimaneiro.jpg" },
+{ nombre: "Lucia Maneiro", foto: "img/lulimaneiro.jpeg" },
 { nombre: "Facundo Camacho", foto: "img/pacheque.jpg" },
 { nombre: "Resta", foto: "img/resta.JPG" },
 { nombre: "Maravilla", foto: "img/maravilla.jpg" },
