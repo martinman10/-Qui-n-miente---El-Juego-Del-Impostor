@@ -108,6 +108,7 @@
   { nombre: "Rauw Alejandro", foto: "img/rauw.jpg" },
   { nombre: "Ricardo Arjona", foto: "img/ricardo_arjona.jpg" },
   { nombre: "Juanes", foto: "img/juanes.jpg" },
+  { nombre: "Ivan Alonso", foto: "img/ivanalonso.jpg" },
   { nombre: "Quevedo", foto: "img/quevedo.jpg" },
   { nombre: "Luana", foto: "img/luana.jpg" },
   { nombre: "Luck Ra", foto: "img/luckra.jpg" },
