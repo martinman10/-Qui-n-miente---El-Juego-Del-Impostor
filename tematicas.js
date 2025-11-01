@@ -12,7 +12,7 @@
 "Fede Valverde", "Felipe Carballo", "Felipe Carvalho", "Fernando Morena", "Fernando Muslera", 
 "Flavio Perchman", "Franco Fagúndez", "Gastón Silva", "Gonzalo Carneiro", 
 "Gonzalo Petit","Gustaf", "GuilleFutbol", "Guillermo Cotugno", "Héctor Scarone", 
-"Hugo Burel", "Ignacio Álvarez", "Ignacio Lores", "Ignacio Sosa", 
+"Hugo Burel", "Ignacio Álvarez", "Ignacio Lores", "Ignacio Sosa", "Ivan Alonso",
 "Javo Machado", "Javier Cabrera", "Jeremia Recoba", "Jesús Trindade", "Johnny Te Cuento", 
 "Jorge Drexler", "José Batlle y Ordóñez", "José Mujica", "Jonathan Rodríguez", "Juan Carlos Scelza", 
 "Juan María Bordaberry", "Julio María Sanguinetti", "Kairo Herrera", "Lea Sosa", "Leonardo Fernández", 
