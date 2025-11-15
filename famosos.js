@@ -600,4 +600,10 @@
 { nombre: "Teresita Maneiro", foto: "img/tiatere.jpg" },
 { nombre: "Damian Maneiro", foto: "img/damimaneiro.jpg" },
 ];
+// =========================================================
+// INSERCIÓN AL FINAL DE famosos.js
+// Esto permite que el servidor de Node.js pueda importar la lista
+// =========================================================
+module.exports = { famosos };
+
 window.famosos = famosos;

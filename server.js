@@ -21,10 +21,19 @@ const io = socketIo(server, {
 
 app.use(express.static(path.join(__dirname,)));
 
-// Almacén de salas en memoria
-const rooms = new Map();
 
-// Agrega aquí la función:
+// =========================================================
+// INSERCIÓN EN server.js (Después de 'rooms' y 'normalizarNombre')
+// Importar los famosos y temáticas para que el servidor maneje la selección
+// =========================================================
+const { famosos: todosLosFamosos } = require('./famosos');
+const { famososPorTematica } = require('./tematicas');
+
+// Almacén de salas en memoria
+const rooms = new Map(); // Esta línea ya debería estar
+// ... y aquí va el resto de tu código
+
+// Agrega aquí la función:
 function normalizarNombre(nombre) {
   return nombre
     .toLowerCase()
@@ -69,171 +78,78 @@ io.on('connection', (socket) => {
 
   // Recibir datos de famosos del cliente (bien ubicado, solo una vez)
   socket.on('send-famosos-data', (data) => {
-    // Iniciar juego
-    socket.on('start-game', (gameConfig) => {
-      const roomCode = socket.roomCode;
-      const room = rooms.get(roomCode);
-      if (!room || room.host !== socket.id) {
-        socket.emit('error', 'No tienes permisos para iniciar el juego');
-        return;
-      }
-      if (room.players.length < 3) {
-        socket.emit('error', 'Se necesitan al menos 3 jugadores');
-        return;
-      }
-      // Asignar roles
-      const totalPlayers = room.players.length;
-      const numImpostors = Math.min(gameConfig.impostores, totalPlayers - 1);
-      // Seleccionar impostores aleatoriamente
-      const playerIndices = Array.from({ length: totalPlayers }, (_, i) => i);
-      const impostorIndices = [];
-      for (let i = 0; i < numImpostors; i++) {
-        const randomIndex = Math.floor(Math.random() * playerIndices.length);
-        impostorIndices.push(playerIndices.splice(randomIndex, 1)[0]);
-      }
-      // Seleccionar famoso aleatorio y guardar el objeto completo
-      let famosoElegido = null;
-      if (room.famososData && room.famososData.famosos && room.famososData.famososPorTematica) {
-        let famososDisponibles = [];
-        if (gameConfig.tematicasSeleccionadas && gameConfig.tematicasSeleccionadas.length > 0) {
-          gameConfig.tematicasSeleccionadas.forEach(tematica => {
-            if (room.famososData.famososPorTematica[tematica]) {
-              famososDisponibles = famososDisponibles.concat(room.famososData.famososPorTematica[tematica]);
-            }
-          });
-        } else {
-          Object.keys(room.famososData.famososPorTematica).forEach(tematica => {
-            if (tematica !== 'todos') {
-              famososDisponibles = famososDisponibles.concat(room.famososData.famososPorTematica[tematica]);
-            }
-          });
-        }
-        // Eliminar duplicados
-        famososDisponibles = [...new Set(famososDisponibles)];
-        if (famososDisponibles.length > 0) {
-          const nombreElegido = famososDisponibles[Math.floor(Math.random() * famososDisponibles.length)];
-          // Buscar el objeto completo del famoso
-          famosoElegido = room.famososData.famosos.find(f => normalizarNombre(f.nombre) === normalizarNombre(nombreElegido));
-          if (!famosoElegido) {
-            // Si no se encuentra, buscar por inclusión parcial
-            famosoElegido = room.famososData.famosos.find(f => normalizarNombre(f.nombre).includes(normalizarNombre(nombreElegido)));
-          }
-        }
-      }
-      // Fallback total
-      if (!famosoElegido) {
-        famosoElegido = { nombre: 'Famoso Desconocido', foto: 'img/default.jpg' };
-      }
-      console.log('🎯 Famoso elegido para el juego:', famosoElegido);
-      // Asignar roles a jugadores y guardar el famoso completo en cada jugador
-      room.players.forEach((player, index) => {
-        if (impostorIndices.includes(index)) {
-          player.role = 'impostor';
-          player.famoso = null;
-          player.famosoData = null;
-        } else {
-          player.role = 'famoso';
-          player.famoso = famosoElegido.nombre;
-          player.famosoData = famosoElegido;
-        }
-        player.hasSeenRole = false;
-        player.readyToContinue = false;
-      });
-      room.gameStarted = true;
-      room.gameConfig = gameConfig;
-      room.gamePhase = 'revealing';
-      room.currentPlayerIndex = 0;
-      // Notificar inicio del juego
-      io.to(roomCode).emit('game-started', {
-        totalPlayers: totalPlayers,
-        gamePhase: 'revealing'
-      });
-      console.log(`🎮 Juego iniciado en sala ${roomCode} con ${totalPlayers} jugadores`);
-      console.log('👥 Roles asignados:', room.players.map(p => ({ name: p.name, role: p.role, famoso: p.famoso })));
-    });
-
-    if (room.famososData && room.famososData.famosos && room.famososData.famososPorTematica) {
-      let famososDisponibles = [];
-
-      // Si hay temáticas seleccionadas, usar solo esas
-      if (gameConfig.tematicasSeleccionadas && gameConfig.tematicasSeleccionadas.length > 0) {
-        gameConfig.tematicasSeleccionadas.forEach(tematica => {
-          if (room.famososData.famososPorTematica[tematica]) {
-            famososDisponibles = famososDisponibles.concat(room.famososData.famososPorTematica[tematica]);
-          }
-        });
-      } else {
-        // Si no hay temáticas seleccionadas, usar todas excepto "todos"
-        Object.keys(room.famososData.famososPorTematica).forEach(tematica => {
-          if (tematica !== 'todos') {
-            famososDisponibles = famososDisponibles.concat(room.famososData.famososPorTematica[tematica]);
-          }
-        });
-      }
-
-      // Eliminar duplicados
-      famososDisponibles = [...new Set(famososDisponibles)];
-
-      if (famososDisponibles.length > 0) {
-        const nombreElegido = famososDisponibles[Math.floor(Math.random() * famososDisponibles.length)];
-
-        // Logs para depuración de nombres
-        console.log('Buscando famoso:', nombreElegido);
-        const listaFamosos = room.famososData.famosos.map(f => f.nombre);
-        console.log('Lista de famosos:', listaFamosos);
-        // Buscar el famoso completo con foto usando comparación flexible
-        famosoElegido = room.famososData.famosos.find(f => 
-          normalizarNombre(f.nombre) === normalizarNombre(nombreElegido)
-        );
-        if (!famosoElegido) {
-          // Mostrar los nombres que no coinciden
-          const diferencias = listaFamosos.map(n => ({
-            original: n,
-            normalizado: normalizarNombre(n)
-          }));
-          console.log('No se encontró famoso exacto para:', nombreElegido, 'normalizado:', normalizarNombre(nombreElegido));
-          console.log('Nombres normalizados en la lista:', diferencias);
-          famosoElegido = { nombre: nombreElegido, foto: 'img/default.jpg' };
-        }
-      }
+    
+   // =========================================================
+  // REEMPLAZO COMPLETO: Evento 'start-game'
+  // El servidor selecciona el famoso, asigna roles y notifica a cada cliente.
+  // =========================================================
+  socket.on('start-game', ({ roomCode, maxImpostores, duracion, tematica }) => {
+    const room = rooms.get(roomCode);
+    
+    if (!room || room.host !== socket.id) {
+      return socket.emit('error', 'No tienes permiso para iniciar el juego o la sala no existe.');
     }
 
-    // Fallback total
-    if (!famosoElegido) {
-      famosoElegido = { nombre: 'Famoso Desconocido', foto: 'img/default.jpg' };
-    }
+    // 1. Obtener la lista de famosos de la temática seleccionada (del archivo tematicas.js)
+    const famososDisponibles = famososPorTematica[tematica];
 
-    console.log('🎯 Famoso elegido para el juego:', famosoElegido);
+    if (!famososDisponibles || famososDisponibles.length === 0) {
+        // Enviar error al host
+        return socket.emit('error', `La temática "${tematica}" no tiene famosos disponibles.`);
+    }
     
-    // Asignar roles a jugadores
-    room.players.forEach((player, index) => {
-      if (impostorIndices.includes(index)) {
-        player.role = 'impostor';
-      } else {
-        player.role = 'famoso';
-        player.famoso = famosoElegido.nombre;
-        player.famosoData = famosoElegido;
-      }
-      player.hasSeenRole = false;
-      player.readyToContinue = false;
+    // 2. Seleccionar UN famoso de la lista (el que será el impostor/falso)
+    const famosoNombre = famososDisponibles[Math.floor(Math.random() * famososDisponibles.length)];
+    
+    // 3. Buscar el objeto completo del famoso (con la foto) (del archivo famosos.js)
+    const famosoSeleccionado = todosLosFamosos.find(f => f.nombre === famosoNombre);
+
+    if (!famosoSeleccionado) {
+         // Error de sincronización si el nombre no existe en el objeto completo
+         return socket.emit('error', 'Error interno: Famoso seleccionado no encontrado.');
+    }
+    
+    // 4. Asignar roles y el famoso a cada jugador
+    const players = room.players;
+    const playersCount = players.length;
+    // Asegura que no haya más impostores que jugadores - 1
+    const impostoresCount = Math.min(maxImpostores, playersCount - 1); 
+    
+    // Mezcla de jugadores para asignar roles al azar
+    const shuffledPlayers = [...players].sort(() => 0.5 - Math.random());
+    
+    for (let i = 0; i < playersCount; i++) {
+      const player = shuffledPlayers[i];
+      // Asigna rol: 'impostor' para los primeros, 'civil' para el resto
+      player.role = i < impostoresCount ? 'impostor' : 'civil';
+      // Asignar el objeto del famoso a cada jugador
+      player.famoso = famosoSeleccionado; 
+    }
+    
+    // 5. Actualizar la sala y notificar
+    room.state = 'playing';
+    room.famoso = famosoSeleccionado; // Guardar el famoso en la sala (para consultas futuras)
+    room.duration = duracion; // Guardar la duración
+
+    // Notificar a TODOS en la sala que el juego ha comenzado
+    io.to(roomCode).emit('game-started', { 
+      players: players.map(p => ({ id: p.id, name: p.name, isHost: p.isHost })), 
+      duration: duracion,
+      gameState: 'playing'
     });
     
-    room.gameStarted = true;
-    room.gameConfig = gameConfig;
-    room.gamePhase = 'revealing';
-    room.currentPlayerIndex = 0;
-    
-    // Notificar inicio del juego
-    io.to(roomCode).emit('game-started', {
-      totalPlayers: totalPlayers,
-      gamePhase: 'revealing'
+    // 6. Enviar a CADA jugador su rol y el famoso (mensaje privado)
+    // El impostor ve al civil. El civil ve al famoso real.
+    shuffledPlayers.forEach(player => {
+      io.to(player.id).emit('your-role', {
+        role: player.role,
+        famoso: player.famoso // Enviar objeto completo (nombre y foto)
+      });
     });
-    
-    console.log(`🎮 Juego iniciado en sala ${roomCode} con ${totalPlayers} jugadores`);
-    console.log('👥 Roles asignados:', room.players.map(p => ({ name: p.name, role: p.role, famoso: p.famoso })));
+
+    console.log(`▶️ Juego iniciado en sala ${roomCode}: Famoso: ${famosoSeleccionado.nombre}, Impostores: ${impostoresCount}`);
   });
-
-  // Jugador ve su rol
+// Jugador ve su rol
   socket.on('reveal-role', () => {
     const roomCode = socket.roomCode;
     const room = rooms.get(roomCode);

@@ -134,4 +134,11 @@
     "Javier Cornejo", "Andrea Maneiro", "Yessi Mayero", "Paola Mayero", "Natalia Mayero", "Nicolas Mayero", 
     "Daniel Mayero", "Marcela Cabaña", "Teresita Maneiro", "Damian Maneiro"]
 };
+
 window.famososPorTematica = famososPorTematica;
+
+// =========================================================
+// INSERCIÓN AL FINAL DE tematicas.js
+// Esto permite que el servidor de Node.js pueda importar el objeto de temáticas
+// =========================================================
+module.exports = { famososPorTematica };
