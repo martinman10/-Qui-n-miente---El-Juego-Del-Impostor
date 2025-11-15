@@ -946,4 +946,21 @@ document.getElementById("btnCancelarTematicas").addEventListener("click", () => 
     // Por si algún estilo cambia por viewport
     window.addEventListener('resize', updateThemeButtonVisibility);
   });
+  // =========================================================
+// REGISTRO DEL SERVICE WORKER (PARA CAPACIDADES OFFLINE / PWA)
+// =========================================================
+document.addEventListener('DOMContentLoaded', () => {
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then(registration => {
+          console.log('✅ Service Worker registrado con éxito. Scope:', registration.scope);
+        })
+        .catch(error => {
+          console.error('❌ Falló el registro del Service Worker:', error);
+        });
+    });
+  }
+});
+
 })();
